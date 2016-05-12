@@ -3,7 +3,7 @@
 	return {
 		"name":			"JSON",				// as appears in 'insert object' dialog, can be changed as long as "id" stays the same
 		"id":			"JSON",				// this is used to identify this plugin and is saved to the project; never change it
-		"version":		"1.0",					// (float in x.y format) Plugin version - C2 shows compatibility warnings based on this
+		"version":		"1.1",					// (float in x.y format) Plugin version - C2 shows compatibility warnings based on this
 		"description":	"Bring javascript's Objects and Array to Construct2",
 		"author":		"Yann Granjon",
 		"help url":		"",
@@ -70,7 +70,7 @@ function expKeyPath() {
 }
 
 function path(n) {
-    return "<b>{"+n+"}</b><i>[{...}]</i>";
+    return "<b>{"+n+"}</b>@<i>{...}</i>";
 }
 
 keyPath();
@@ -93,6 +93,9 @@ AddCondition(50, cf_none, "Is null", "Type", path(0)+" is null", "Is the value n
 
 keyPath();
 AddCondition(60, cf_none, "Is undefined", "Type", path(0)+" is undefined", "Is the value undefined", "IsUndefined");
+
+keyPath();
+AddCondition(70, cf_none, "Is Empty", "Arrays & Objects", path(0)+" is empty", "Is the object/array empty (Size = 0)", "IsEmpty");
 
 
 // loopings
@@ -136,6 +139,9 @@ AddAction(40, 0, "Set null", "Values", "set null at "+path(0), "Set null at the 
 keyPath();
 AddAction(50, 0, "Delete", "Values", "delete "+path(0), "Delete the given property (Caution: you need to provide keys as you can't delete the root)", "Delete");
 
+keyPath();
+AddAction(55, 0, "Clear", "Values", "clear "+path(0), "Clear the given object/array (if a non object/array is provided, it is deleted)", "Clear");
+
 
 AddStringParam("JSON", "Load any JSON string");
 keyPath();
@@ -162,20 +168,25 @@ AddAction(200, 0, "Set Current Path", "Path", "Set Current Path to "+path(0), "S
 
 // example
 expKeyPath();
-AddExpression(0, ef_return_number | ef_variadic_parameters, "Length", "Length", "Length", "Return the length of the array at the property (0 if empty or not array).");
+AddExpression(0, ef_deprecated | ef_return_number | ef_variadic_parameters, "Length", "Length", "Length", "Return the length of the array at the property (0 if empty or not array).");
 
 expKeyPath();
-AddExpression(10, ef_return_any | ef_variadic_parameters, "Value", "Value", "Value", "Return the value at the property (0 if boolean false as well as array or object but will trigger a warning in the console).");
+AddExpression(1, ef_return_number | ef_variadic_parameters, "Size", "Size", "Size", "Return the size of the array/object at the property (-1 if not an array/object).");
 
 expKeyPath();
-AddExpression(20, ef_return_string | ef_variadic_parameters, "ToJson", "ToJson", "ToJson", "Return the content of the property as a JSON string.");
+AddExpression(10, ef_return_any | ef_variadic_parameters, "Value", "Value", "Value", "Return the value at the property (Construct2 only supports strings and numbers, so false -> 0, true -> 1, object -> \"object\", array -> \"array\". the last two will trigger a warning in the console).");
+
+expKeyPath();
+AddExpression(20, ef_deprecated | ef_return_string | ef_variadic_parameters, "ToJson", "ToJson", "ToJson", "Return the content of the property as a JSON string.");
+expKeyPath();
+AddExpression(21, ef_return_string | ef_variadic_parameters, "AsJson", "AsJson", "AsJson", "Return the content of the property as a JSON string.");
 
 expKeyPath();
 AddExpression(30, ef_return_string | ef_variadic_parameters, "TypeOf", "TypeOf", "TypeOf", "Return the type of the property.");
 
 // loops
-AddExpression(100, ef_return_any | ef_variadic_parameters, "CurrentKey", "Object", "CurrentKey", "Get the current property of an object in a for each property loop.");
-
+AddExpression(100, ef_return_any, "Current Key", "Loop", "CurrentKey", "Get the current property of an object in a for each property loop.");
+AddExpression(110, ef_return_any, "Current Value", "Loop", "CurrentValue", "Get the current value of an object's property in a for each property loop. (Construct2 only supports strings and numbers, so false -> 0, true -> 1, object -> \"object\", array -> \"array\". the last two will trigger a warning in the console).");
 
 ////////////////////////////////////////
 ACESDone();
