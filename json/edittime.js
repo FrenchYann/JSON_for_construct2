@@ -102,6 +102,9 @@ AddCondition(70, cf_none, "Is Empty", "Arrays & Objects", path(0)+" is empty", "
 keyPath();
 AddCondition(100, cf_looping, "For each property", "Object", "For each property at "+path(0), "Repeat the event for each properties of the object.", "ForEachProperty");
 
+// Error handling
+AddCondition(200, cf_trigger, "On JSON Parse Error", "JSON", "On JSON Parse Error", "Is triggered if a LoadJSON failed (usually due to ill formed JSON).", "OnJSONParseError");
+
 
 ////////////////////////////////////////
 // Actions
@@ -145,7 +148,7 @@ AddAction(55, 0, "Clear", "Values", "clear "+path(0), "Clear the given object/ar
 
 AddStringParam("JSON", "Load any JSON string");
 keyPath();
-AddAction(60, 0, "LoadJSON", "Load", "load JSON {0} at "+path(1), "Load a JSON at the given property", "LoadJSON");
+AddAction(60, 0, "LoadJSON", "Load", "Load JSON {0} at "+path(1), "Load a JSON at the given property", "LoadJSON");
 
 AddAction(100, 0, "LogData", "Log", "LogData", "Log the whole JSON object", "LogData");
 
@@ -153,6 +156,16 @@ AddAction(100, 0, "LogData", "Log", "LogData", "Log the whole JSON object", "Log
 keyPath();
 AddAction(200, 0, "Set Current Path", "Path", "Set Current Path to "+path(0), "Set the object's current relative path", "SetCurrentPath");
 
+AddStringParam("Reference name", "Name under which you save the reference");
+keyPath();
+AddAction(300, 0, "Save Reference", "Reference", "Save at {0} reference to "+path(1), "Save the reference using a key", "SaveReference");
+
+AddStringParam("Reference name", "Name you used when you savec the reference");
+keyPath();
+AddAction(310, 0, "Load Reference", "Reference", "Load reference {0} in "+path(1), "Load a previously save reference at the given path", "LoadReference");
+
+AddStringParam("Reference name", "Name you used when you savec the reference");
+AddAction(320, 0, "Delete Reference", "Reference", "Delete reference {0}", "Delete a previously save reference", "DeleteReference");
 
 
 ////////////////////////////////////////

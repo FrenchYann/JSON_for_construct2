@@ -15,6 +15,8 @@ cr.plugins_.JSON = function(runtime)
 
 (function ()
 {
+    /*! (C) WebReflection Mit Style License */
+    var CircularJSON=function(e,t){function l(e,t,o){var u=[],f=[e],l=[e],c=[o?n:"[Circular]"],h=e,p=1,d;return function(e,v){return t&&(v=t.call(this,e,v)),e!==""&&(h!==this&&(d=p-a.call(f,this)-1,p-=d,f.splice(p,f.length),u.splice(p-1,u.length),h=this),typeof v=="object"&&v?(a.call(f,v)<0&&f.push(h=v),p=f.length,d=a.call(l,v),d<0?(d=l.push(v)-1,o?(u.push((""+e).replace(s,r)),c[d]=n+u.join(n)):c[d]=c[0]):v=c[d]):typeof v=="string"&&o&&(v=v.replace(r,i).replace(n,r))),v}}function c(e,t){for(var r=0,i=t.length;r<i;e=e[t[r++].replace(o,n)]);return e}function h(e){return function(t,s){var o=typeof s=="string";return o&&s.charAt(0)===n?new f(s.slice(1)):(t===""&&(s=v(s,s,{})),o&&(s=s.replace(u,"$1"+n).replace(i,r)),e?e.call(this,t,s):s)}}function p(e,t,n){for(var r=0,i=t.length;r<i;r++)t[r]=v(e,t[r],n);return t}function d(e,t,n){for(var r in t)t.hasOwnProperty(r)&&(t[r]=v(e,t[r],n));return t}function v(e,t,r){return t instanceof Array?p(e,t,r):t instanceof f?t.length?r.hasOwnProperty(t)?r[t]:r[t]=c(e,t.split(n)):e:t instanceof Object?d(e,t,r):t}function m(t,n,r,i){return e.stringify(t,l(t,n,!i),r)}function g(t,n){return e.parse(t,h(n))}var n="~",r="\\x"+("0"+n.charCodeAt(0).toString(16)).slice(-2),i="\\"+r,s=new t(r,"g"),o=new t(i,"g"),u=new t("(?:^|([^\\\\]))"+i),a=[].indexOf||function(e){for(var t=this.length;t--&&this[t]!==e;);return t},f=String;return{stringify:m,parse:g}}(JSON,RegExp);
     /////////////////////////////////////
     // *** CHANGE THE PLUGIN ID HERE *** - must match the "id" property in edittime.js
     //                            vvvvvvvv
@@ -26,6 +28,7 @@ cr.plugins_.JSON = function(runtime)
     {
         this.plugin = plugin;
         this.runtime = plugin.runtime;
+        this.references = {};
     };
 
     var typeProto = pluginProto.Type.prototype;
@@ -49,6 +52,15 @@ cr.plugins_.JSON = function(runtime)
     
     var instanceProto = pluginProto.Instance.prototype;
     var ROOT_KEY = "root";
+    // any path set in c2 is mapped the following way:
+    // root@"a","b","c"
+    // becomes this.data[ROOT_KEY]["a"]["b"]["c"]
+    // when we deal with arrays we can just get the value at that path to modify it
+    // but wen we deal with row values like string, number, null and undefined
+    // they get copied so we usually need the object holding the last part of the path
+    // that's also why we offset everything with ROOT_KEY
+
+
     // called whenever an instance is created
     instanceProto.onCreate = function()
     {
@@ -71,6 +83,14 @@ cr.plugins_.JSON = function(runtime)
         this.curKey   = null;
         this.curPath  = null;
         this.curValue = null;
+        // let's be clean with those references
+        var ref = this.type.references;
+        for (var name in ref) {
+            if (Object.prototype.hasOwnProperty.call(ref,name) &&
+                ref[name].origin === this) {
+                delete ref[name];
+            }
+        }
     };
     
     // called when saving the full state of the game
@@ -92,7 +112,8 @@ cr.plugins_.JSON = function(runtime)
         // Closure Compiler renaming and breaking the save format
         this.data[ROOT_KEY] = o;
     };
-    
+   
+
     
     // The comments around these functions ensure they are removed when exporting, since the
     // debugger code is no longer relevant after publishing.
@@ -101,6 +122,7 @@ cr.plugins_.JSON = function(runtime)
     // slightly modified neet simple function from Pumbaa80
     // http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript#answer-7220510
     function syntaxHighlight(json) {
+        if (json === undefined) return "";
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); // basic html escaping
         return json
             .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
@@ -122,20 +144,27 @@ cr.plugins_.JSON = function(runtime)
             .replace(/\n/g,"<br/>");       // to keep line break in html
     }
 
+    function logInvalidPath(path) {
+      log("invalid path: root@"+ path.toString(),"warn");
+      console.trace();
+    }
+
     instanceProto.getDebuggerValues = function (propsections)
     {
         // Append to propsections any debugger sections you want to appear.
         // Each section is an object with two members: "title" and "properties".
         // "properties" is an array of individual debugger properties to display
         // with their name and value, and some other optional settings.
-        var str = JSON.stringify(this.data[ROOT_KEY],null,"\t");
+        var str = CircularJSON.stringify(this.data[ROOT_KEY],"\t");
 
         propsections.push({
             "title": "JSON",
             "properties": [
                 {
                     "name":"content",
-                    "value": "<span style=\"cursor:text;-webkit-user-select: text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;\">"+syntaxHighlight(str)+"</style>",
+                    "value": "<span style=\"cursor:text;-webkit-user-select: text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;\">"+
+                        syntaxHighlight(str)+
+                      "</span>",
                     "html": true,
                     "readonly":true
                 }
@@ -173,17 +202,16 @@ cr.plugins_.JSON = function(runtime)
         } else {
             var path_ = [ROOT_KEY].concat(path);
             var value = this.data;
-
             for (var i = 0; i < path_.length; i++) {
                 if (value === undefined) {
-                    log("invalid path: root@"+ path.toString(),"warn");
+                    logInvalidPath(path);
                     break;
                 } else if (value === null) {
                     // we avoid null 'cause null[i] will throw an error
                     if (i < path_.length - 1) {
                         // we won't find anything
                         // at the end of the path
-                        log("invalid path: root@"+ path.toString(),"warn");
+                        logInvalidPath(path);
                         value = undefined;
                     }
                     break;
@@ -207,8 +235,7 @@ cr.plugins_.JSON = function(runtime)
             var path_ = [ROOT_KEY].concat(path);
             var obj   = this.data;
             for (var i = 0; i < path_.length; i++) {
-                if (type(obj) === "array" ||
-                    type(obj) === "object") {
+                if (isCollection(obj)) {
 
                     if(i < path_.length-1) {
                         obj = obj[path_[i]];   // moving along
@@ -217,7 +244,7 @@ cr.plugins_.JSON = function(runtime)
                     }
 
                 } else {
-                    log("invalid path: root@"+ path.toString(),"warn");
+                    logInvalidPath(path);
                     return;
                 }
             }
@@ -225,6 +252,9 @@ cr.plugins_.JSON = function(runtime)
         }
     };
 
+    function isCollection(obj) {
+      return type(obj) === "array" || type(obj) === "object";
+    }
 
     function type(value) {
         if (value === undefined) {
@@ -249,9 +279,14 @@ cr.plugins_.JSON = function(runtime)
     // Conditions
     function Cnds() {}
 
+    Cnds.prototype.OnJSONParseError = function ()
+    {
+        return true;
+    };
     // the example condition
     Cnds.prototype.IsObject = function (from_current,path)
     {
+
         var value = this.getValueFromPath(from_current === 1, path);
         return type(value) === "object";
 
@@ -393,6 +428,7 @@ cr.plugins_.JSON = function(runtime)
     {
         this.setValueFromPath(from_current,path,null);
     };
+    // set the given path to something undefined
     Acts.prototype.Delete = function (from_current,path)
     {   
         var path_;
@@ -403,12 +439,14 @@ cr.plugins_.JSON = function(runtime)
         }
 
         function deleteIfValid(obj,prop) {
-            if ( obj !== undefined && obj !== null && 
-                 (typeof obj === "object") && obj[prop] !== undefined){
-                
-                delete obj[prop];
+            if ( obj !== undefined && obj !== null) {
+                if (type(obj) === "object" && obj[prop] !== undefined){
+                    delete obj[prop];
+                } else if (type(obj) === "array" && type(prop) === "number") {
+                    obj.splice(Math.floor(prop),1);
+                }
             } else {
-                log("invalid path: root@"+ path_.toString(),"warn");
+                logInvalidPath(path_);
             }
         }
 
@@ -418,13 +456,15 @@ cr.plugins_.JSON = function(runtime)
             deleteIfValid(
                 this.getValueFromPath(
                     false,
-                    path_.slice(0,path.length-1) // go through all property but the last one
+                    path_.slice(0,path_.length-1) // go through all property but the last one
                 ),
-                path_.slice(-1) // get last property
+                path_[path_.length-1]
             );
         }
     };
 
+    // acts like Delete for raw values (number, string, boolean, null)
+    // empties objects and arrays
     Acts.prototype.Clear = function (from_current,path)
     {   
         var path_;
@@ -448,10 +488,10 @@ cr.plugins_.JSON = function(runtime)
                         }
                     }
                 } else {
-                    delete obj[prop];
+                    delete obj[prop]; // in this case it's working like Delete
                 }
             } else {
-                log("invalid path: root@"+ path_.toString(),"warn");
+                logInvalidPath(path_);
             }
         }
 
@@ -461,26 +501,63 @@ cr.plugins_.JSON = function(runtime)
             clearIfValid(
                 this.getValueFromPath(
                     false,
-                    path_.slice(0,path.length-1) // go through all property but the last one
+                    path_.slice(0,path_.length-1) // go through all property but the last one
                 ),
-                path_.slice(-1) // get last property
+                path_[path_.length-1]
             );
         }
     };
+
+    instanceProto.LoadJSON = function(json,from_current,path) {
+        try {
+            this.setValueFromPath(from_current,path,CircularJSON.parse(json));
+        } catch (e) {
+            console.warn("LoadJSON error:",e);
+            //if (typeof cr_is_preview !== "undefined") {
+            //}
+            this.runtime.trigger(cr.plugins_.JSON.prototype.cnds.OnJSONParseError, this);
+        }        
+    };
+
     Acts.prototype.LoadJSON = function (json,from_current,path)
     {
-        this.setValueFromPath(from_current,path,JSON.parse(json));
+        this.LoadJSON(json,from_current,path);
+        
     };
     Acts.prototype.LogData = function ()
     {
-        if(console.groupCollapsed !== undefined && console.groupEnd !== undefined) {
+        var grouping = console.groupCollapsed !== undefined && console.groupEnd !== undefined;
+
+        if(grouping) {
             console.groupCollapsed(ROOT_KEY+":");
-            console.log(JSON.stringify(this.data[ROOT_KEY],null,2));
+            console.log(CircularJSON.stringify(this.data[ROOT_KEY],2));
             console.groupEnd();
         } else {
-            console.log(JSON.stringify(this.data[ROOT_KEY],null,2));
+            console.log(ROOT_KEY+":",CircularJSON.stringify(this.data[ROOT_KEY],2));
         }
-        console.log("Current Path:", JSON.stringify(this.curPath));
+        console.log("Current Path:", CircularJSON.stringify(this.curPath));
+        if (grouping) {
+            console.group("References:");
+        } else {
+            console.log("References:");
+        }
+        var ref = this.type.references;
+        for (var name in ref) {
+            if (Object.prototype.hasOwnProperty.call(ref,name)) {
+                if(grouping) {
+                    console.groupCollapsed(name);
+                    console.log(CircularJSON.stringify(ref[name].value,2));
+                    console.groupEnd();
+                } else {
+                    console.log("["+name+"]",CircularJSON.stringify(ref[name].value,2));
+                }
+            }
+        }
+
+        if (grouping) {
+            console.groupEnd();
+        }
+        console.log(""); // just a blank line for clarity
     };
 
     Acts.prototype.SetCurrentPath = function(from_current,path) {
@@ -490,6 +567,20 @@ cr.plugins_.JSON = function(runtime)
             this.curPath = path.slice();
         }
     };
+
+    Acts.prototype.SaveReference = function(name,from_current,path) {
+        this.type.references[name] = {
+            value: this.getValueFromPath(from_current===1, path),
+            origin: this
+        };
+    };
+    Acts.prototype.LoadReference = function(name,from_current,path) {
+        this.setValueFromPath(from_current===1,path,this.type.references[name].value);
+    };
+    Acts.prototype.DeleteReference = function(name) {
+        delete this.type.references[name];
+    };
+
     
     // ... other actions here ...
     
@@ -509,7 +600,7 @@ cr.plugins_.JSON = function(runtime)
         if (type(value) === "array") {
             ret.set_int(value.length);   
         } else {
-            ret.set_int(0);
+            ret.set_int(-1);
         }
     };
 
@@ -553,6 +644,7 @@ cr.plugins_.JSON = function(runtime)
         }
     };
     // deprecated
+    //*
     Exps.prototype.ToJson = function (ret)
     {  
         var path = Array.prototype.slice.call(arguments);
@@ -563,9 +655,9 @@ cr.plugins_.JSON = function(runtime)
         if(t === "undefined") {
             ret.set_string(t);
         } else {
-            ret.set_string(JSON.stringify(value));        
+            ret.set_string(CircularJSON.stringify(value));        
         }
-    };
+    };//*/
     Exps.prototype.AsJson = function (ret)
     {  
         var path = Array.prototype.slice.call(arguments);
@@ -576,7 +668,7 @@ cr.plugins_.JSON = function(runtime)
         if(t === "undefined") {
             ret.set_string(t);
         } else {
-            ret.set_string(JSON.stringify(value));        
+            ret.set_string(CircularJSON.stringify(value));        
         }
     };
 
