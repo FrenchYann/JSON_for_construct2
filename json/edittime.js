@@ -100,7 +100,7 @@ AddCondition(70, cf_none, "Is Empty", "Arrays & Objects", path(0)+" is empty", "
 
 // loopings
 keyPath();
-AddCondition(100, cf_looping, "For each property", "Object", "For each property at "+path(0), "Repeat the event for each properties of the object.", "ForEachProperty");
+AddCondition(100, cf_looping, "For each property", "Object", "For each property at "+path(0), "Repeat the event for each property of the object.", "ForEachProperty");
 
 // Error handling
 AddCondition(200, cf_trigger, "On JSON Parse Error", "JSON", "On JSON Parse Error", "Is triggered if a LoadJSON failed (usually due to ill formed JSON).", "OnJSONParseError");
