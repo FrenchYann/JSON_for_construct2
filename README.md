@@ -208,6 +208,6 @@ and now (v1.1) in the debugger:
 
 [prototype.capx]: https://app.box.com/s/1whrtwl9m7oflr0goibe
 [inspection.capx]: https://app.box.com/s/fzf0waxeplq8u5iy6l7h
-[class-mechanism-event-sheet]: (https://app.box.com/representation/file_version_18381239541/image_2048/1.png?shared_name=3nhtc4pjep6suvwkio5o)
-[class-mechanism-console]: (https://app.box.com/representation/file_version_18381237557/image_2048/1.png?shared_name=92fcm9uqf1yp9xrcrqxm)
-[class-mechanism-debugger]: (https://app.box.com/representation/file_version_18381235965/image_2048/1.png?shared_name=w6ffnig9nxbltu515kw0)
+[class-mechanism-event-sheet]: https://app.box.com/representation/file_version_18381239541/image_2048/1.png?shared_name=3nhtc4pjep6suvwkio5o
+[class-mechanism-console]: https://app.box.com/representation/file_version_18381237557/image_2048/1.png?shared_name=92fcm9uqf1yp9xrcrqxm
+[class-mechanism-debugger]: https://app.box.com/representation/file_version_18381235965/image_2048/1.png?shared_name=w6ffnig9nxbltu515kw0
