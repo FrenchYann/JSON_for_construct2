@@ -196,9 +196,9 @@ Returns the current value in a foreach loop. Outside a loop returns "undefined" 
 
 ###Class mecanism
 ![class-mechanism-event-sheet][class-mechanism-event-sheet]
-gives you this kind of console output
+gives you this kind of console output:  
 ![class-mechanism-console][class-mechanism-console]
-and now (v1.1) in the debugger:
+and now (v1.1) in the debugger:  
 ![class-mechanism-debugger][class-mechanism-debugger]
 [prototype.capx]
 
