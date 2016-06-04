@@ -571,6 +571,12 @@ cr.plugins_.JSON = function(runtime)
             this.curPath = path.slice();
         }
     };
+    Acts.prototype.PushPathNode = function(node) {
+        this.curPath.push(node);
+    };
+    Acts.prototype.PopPathNode = function() {
+        this.curPath.pop();
+    };
 
     Acts.prototype.SaveReference = function(name,from_current,path) {
         this.type.plugin.references[name] = {

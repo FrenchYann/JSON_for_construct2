@@ -159,6 +159,12 @@ AddAction(100, 0, "LogData", "Log", "LogData", "Log the whole JSON object", "Log
 keyPath();
 AddAction(200, 0, "Set Current Path", "Path", "Set Current Path to "+path(0), "Set the object's current relative path", "SetCurrentPath");
 
+AddStringParam("Node", "Node to push");
+AddAction(210, 0, "Push Path Node", "Path", "Push {0} to the path", "Push a new node to the object's current relative path", "PushPathNode");
+
+AddAction(220, 0, "Pop Path Node", "Path", "Pop a node from the path", "Pop the last node from the object's current relative path (do nothing if the path is empty)", "PopPathNode");
+
+
 AddStringParam("Reference name", "Name under which you save the reference");
 keyPath();
 AddAction(300, 0, "Save Reference", "Shared Reference", "Save at {0} reference to "+path(1), "Save the reference using a key", "SaveReference");
