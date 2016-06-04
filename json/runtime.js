@@ -398,6 +398,10 @@ cr.plugins_.JSON = function(runtime)
         this.runtime.popLoopStack();
         return false;
     };
+    Cnds.prototype.ReferenceExists = function (name)
+    {
+      return name in this.type.plugin.references;
+    };
 
 
 
@@ -579,6 +583,9 @@ cr.plugins_.JSON = function(runtime)
     };
     Acts.prototype.DeleteReference = function(name) {
         delete this.type.plugin.references[name];
+    };
+    Acts.prototype.DeleteAllReferences = function(name) {
+        this.type.plugin.references = {};
     };
 
     

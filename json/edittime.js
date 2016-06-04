@@ -105,6 +105,9 @@ AddCondition(100, cf_looping, "For each property", "Object", "For each property 
 // Error handling
 AddCondition(200, cf_trigger, "On JSON Parse Error", "JSON", "On JSON Parse Error", "Is triggered if a LoadJSON failed (usually due to ill formed JSON).", "OnJSONParseError");
 
+// References
+AddStringParam("Reference name", "Name you used when you save the reference");
+AddCondition(300, cf_none, "Reference Exists", "Shared Reference", "Reference {0} exists", "Return true if the reference exists", "ReferenceExists");
 
 ////////////////////////////////////////
 // Actions
@@ -166,6 +169,9 @@ AddAction(310, 0, "Load Reference", "Shared Reference", "Load reference {0} in "
 
 AddStringParam("Reference name", "Name you used when you save the reference");
 AddAction(320, 0, "Delete Reference", "Shared Reference", "Delete reference {0}", "Delete a previously save reference", "DeleteReference");
+
+
+AddAction(330, 0, "Delete all references", "Shared Reference", "Delete all references", "Delete all save references", "DeleteAllReferences");
 
 
 ////////////////////////////////////////
