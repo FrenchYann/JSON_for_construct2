@@ -11,11 +11,9 @@
     <saved-with-version>22800</saved-with-version>
     <used-plugins>
         <plugin author="Scirra" id="AJAX" version="1">AJAX</plugin>
-        <plugin author="Scirra" id="Browser" version="1">Browser</plugin>
         <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
         <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Yann Granjon" id="JSON" version="1.100000024">JSON</plugin>
-        <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="TextBox" version="1">Text box</plugin>
     </used-plugins>
@@ -71,17 +69,6 @@
         <object-type global="1" name="JSON2" sid="741360924983797">
             <plugin id="JSON" />
         </object-type>
-        <object-type name="Browser" sid="640390820312401">
-            <plugin id="Browser" />
-        </object-type>
-        <object-type name="Sprite" sid="266456562999756">
-            <plugin id="Sprite" />
-            <animation-folder>
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="363270331471983" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
-                </animation>
-            </animation-folder>
-        </object-type>
     </object-folder>
     <families />
     <layout-folder>
@@ -93,7 +80,6 @@
     <global-instances>
         <global-instance type="f" uid="1" />
         <global-instance type="AJAX" uid="4" />
-        <global-instance type="Browser" uid="8" />
     </global-instances>
     <sounds-folder />
     <music-folder />
