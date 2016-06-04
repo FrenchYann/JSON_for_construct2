@@ -156,6 +156,19 @@ cr.plugins_.JSON = function(runtime)
         // "properties" is an array of individual debugger properties to display
         // with their name and value, and some other optional settings.
         var str = CircularJSON.stringify(this.data[ROOT_KEY],null,"\t");
+        var self = this;
+        function printReferences() {
+          var res = "";
+          for(var r in self.type.plugin.references) {
+            res += '<div style="border:1px solid #bbb; margin-bottom:3px;">'+
+                     '<div style="background:#fff;">"'+r+'"</div>'+
+                      syntaxHighlight(CircularJSON.stringify(
+                        self.type.plugin.references[r].value,null,"\t")
+                      )+
+                    '</div>'; 
+          }
+          return res;
+        }
 
         propsections.push({
             "title": "JSON",
@@ -164,6 +177,14 @@ cr.plugins_.JSON = function(runtime)
                     "name":"content",
                     "value": "<span style=\"cursor:text;-webkit-user-select: text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;\">"+
                         syntaxHighlight(str)+
+                      "</span>",
+                    "html": true,
+                    "readonly":true
+                },
+                {
+                    "name":"shared references",
+                    "value": "<span style=\"cursor:text;-webkit-user-select: text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;\">"+
+                        printReferences()+
                       "</span>",
                     "html": true,
                     "readonly":true
