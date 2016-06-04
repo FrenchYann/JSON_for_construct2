@@ -233,6 +233,24 @@ That's the only thing without any path property, it allows you to log in the bro
 - the entire object
 - the current path
 
+####`PushPathNode` - v1.2
+Push a new node to the object's current relative path
+
+####`PopPathNode` - v1.2
+Pop the last node from the object's current relative path (do nothing if the path is empty)
+
+####`SaveReference` - v1.2
+Save the reference using a key
+
+####`LoadReference` - v1.2
+Load a previously save reference at the given path
+
+####`DeleteReference` - v1.2
+Delete a previously save reference
+
+####`DeleteAllReferences` - v1.2
+Delete all save references
+
 
 ###Expressions:
 
@@ -261,7 +279,6 @@ To export the entire object as JSON, do
 CODE: SELECT ALL
 JSON.ToJson(0)
 
-
 ####`TypeOf` - v1.0
 Returns a string representing the type of the value at the given path:
 - "string" for a string
@@ -277,24 +294,6 @@ Returns the current key in a foreach loop. Outside a loop returns an empty strin
 
 ####`CurrentValue` - v1.1 
 Returns the current value in a foreach loop. Outside a loop returns "undefined" (probably)
-
-####`PushPathNode` - v1.2
-Push a new node to the object's current relative path
-
-####`PopPathNode` - v1.2
-Pop the last node from the object's current relative path (do nothing if the path is empty)
-
-####`SaveReference` - v1.2
-Save the reference using a key
-
-####`LoadReference` - v1.2
-Load a previously save reference at the given path
-
-####`DeleteReference` - v1.2
-Delete a previously save reference
-
-####`DeleteAllReferences` - v1.2
-Delete all save references
 
 
 3 - Use Cases:
