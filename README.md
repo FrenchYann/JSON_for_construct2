@@ -1,10 +1,9 @@
-JSON_for_construct2
+JSON for construct2
 ===================
-JSON plugin for Construct2
 
 This plugin started as a way to load, inspect and modify any valid JSON  
 But really... it allows you to manipulate any kind of collection of data.  
-You don't necessarily need to import or export JSON, you can directly create and edit datas in runtime.
+You don't necessarily need to import or export JSON, you can directly create and edit datas at runtime.
 
 
 1 - Design specificities
@@ -39,17 +38,99 @@ For example, if you have the following structure:
 }
 ```
 
-You can set the hp of the Wizard property like this: `JSON: Set 100 at root@"Wizard","stat","hp"`
-
+You can set the hp of the Wizard property like this:
+```glsl
++ Function | On "setWizardHp"
+   -> JSON| Set 100 at root@"Wizard","stat","hp"
+```
 You would build this path the same way you add parameters to a function in the Function plugin
 
-A little important note, In an expression, you have to use **0** or **1** as first parameter. 
+A little important note, In most expressions, you have to use **0** or **1** as first parameter. 
 - 0 stands for root
 - 1 for current.
 
-`JSON.Value(0,"Wizard","stat","hp")` Is an expression which returns the the hp of the wizard.
+`JSON.Value` is an expression which returns the value at the given path.  
+To display the hp of a Wizard, you can do something like:
+```glsl
++ Function | On "displayWizardHp"
+   -> Text | Set text to JSON.Value(0,"Wizard","stat","hp")
+```
 
 This design allows you also to export from and import into any part of your object. For example, if you have different sources of JSON file, you could build an array (`[]`) or a dictionnary (`{}`) of those inside one JSON object.
+
+Let say you have a list of typical RPG classes and jobs with some default parameters
+You can easily build a new character by copying those default parameters this way
+```glsl
+// example use: Function | Call "buildCharacter" ("Rincewind", "Wizard", "Guide")
++ Function | On "buildCharacter"
+   // use local variables for readability
+   Local text name = ""
+   Local text class = ""
+   Local text job = ""
+   -> System | Set name to Function.Param(0)
+   -> System | Set class to Function.Param(1)
+   -> System | Set job to Function.Param(2)
+   // construct and fill the object
+   -> JSON_character | new Object at root@
+   // set the name ("Rincewind" in the example)
+   -> JSON_character | Set name at root@"name"
+   // copy the class' default parameters ("Wizard" in the example)
+   -> JSON_character | Load JSON_classes.AsJson(0, class) at root@"class"
+   // copy the job's default parameters ("Guide" in the example)  
+   -> JSON_character | Load JSON_jobs.AsJson(0, job) at root@"job" 
+```
+
+### What's new in version 1.2 ?
+
+#### Shared Reference
+
+Starting from version 1.2 a **Shared Reference** system as been added.  
+What it allows you to do is directly save and load the underlying object from and to another JSON object or instances or even into another path of the same object.  
+The major advantage is that you can then create datastructures with circular references from simple Ring lists to more complex Cyclic Graphs.
+Those shared references are thought as temporary, I don't think it would be a good idea to keep them hanging. You should delete them as soon as you've loaded them.
+
+To enforce this, any reference from an object will disappear once the instance from which you created them is destroyed. And also, Shared references aren't saved by Construct2
+
+Circular datastructures can be saved and reloaded thanks to this tool https://github.com/WebReflection/circular-json .  
+However, Links between two different instances will be lost.
+
+Those little drawbacks and inconsistencies were the reason I wasn't sure about releasing this feature.
+
+#### Push/Pop Path Node
+Now you can more easily manipulate the Current Path of your object by manipulating it like a stack. You can push a new adress and pop the last pushed address.
+
+Let say you have a linked list like:
+```JSON
+{
+   "value": "a",
+   "next" : {
+      "value": "b",
+      "next":{
+         "value": "c",
+         "next":{
+            "next":null
+         }
+      }
+   }
+}
+```
+You can do something like
+```glsl
++ Function | On "addToList"
+   // make sure we are at the begining
+   + JSON | Set Current Path to root@
+   // we go down the list
+   + System | While
+   + JSON | X current@"next" is null
+      -> JSON | Push "next" to the path
+   // we reached the tail, we insert the new item
+   + JSON | new Object at current@
+   + JSON | set Function.Param(0) at current@"value"
+   + JSON | set null at current@"next"
+   // clean up
+   + JSON | Set Current Path to root@
+```
+
 
 With that out of the way, let's list all we can do with the plugin.
 
@@ -88,11 +169,17 @@ Otherwise, empty means undefined (i.e. a boolean, a number, a string, or null wi
 ####`For each property` - v1.0
 Loops through the value at the given path. The value should be an object or an array. 
 And order cannot be predicted.
-To loop through arrays you should use something like :
-`System: repeat JSON.Size(0,"my","path")`
+However, to loop through arrays it would be better to do something like:
+```glsl
++ System | Repeat JSON.Size(0,"my","path") times
+  -> Browser | Log in console: JSON.Value(0, "my", "path", loopindex)
+```
 
-go through your array using :
-`JSON.Value(0,"my","path",loopindex)`
+####`OnJSONParseError` - v1.2
+Is triggered if a LoadJSON failed (usually due to ill-formed JSON).
+
+####`ReferenceExists` - v1.2
+Return true if the reference exists
 
 
 ###Actions:
@@ -124,19 +211,21 @@ Loads any kind of JSON string. It will internally build a JSON object from it.
 ####`Set Current Path` - v1.0
 Sets the current relative path of the JSON object. Allows you to use some shortcuts when writing path and to loop through properties recursively.
 Example:
-```
-+ some condition
-   -> JSON: Set Current Path to root@"my","path","to","an","array"
-   + System: repeat JSON.Size(1)
-      -> Text: append JSON.Value(1,loopindex) & newline
+```glsl
++ Function | On "displayArray"
+   -> JSON | Set Current Path to root@"my","path","to","an","array"
+   + System | Repeat JSON.Size(1) times
+      -> Text | Append JSON.Value(1,loopindex) & newline
+   // clean up
+   -> JSON | Set Current Path to root@
 ```
 
 To list all the values of an array at "my","path","to","an","array
 Without using Set Current Path, it would look like this:
-```
-+ some condition
-   + System: repeat JSON.Size(0,"my","path","to","an","array")
-      -> Text: append JSON.Value(1,"my","path","to","an","array",loopindex) & newline
+```glsl
++ Function | On "displayArray"
+   + System | Repeat JSON.Size(0,"my","path","to","an","array") times
+      -> Text | Append JSON.Value(0,"my","path","to","an","array",loopindex) & newline
 ```
 
 ####`LogData` - v1.0
@@ -146,7 +235,6 @@ That's the only thing without any path property, it allows you to log in the bro
 
 
 ###Expressions:
-
 
 ####`Length` - v1.0 - deprecated in v1.1
 Returns the Length of the array at the given path. If there's no array at the given path, it returns 0 (maybe should return -1)
@@ -189,6 +277,24 @@ Returns the current key in a foreach loop. Outside a loop returns an empty strin
 
 ####`CurrentValue` - v1.1 
 Returns the current value in a foreach loop. Outside a loop returns "undefined" (probably)
+
+####`PushPathNode` - v1.2
+Push a new node to the object's current relative path
+
+####`PopPathNode` - v1.2
+Pop the last node from the object's current relative path (do nothing if the path is empty)
+
+####`SaveReference` - v1.2
+Save the reference using a key
+
+####`LoadReference` - v1.2
+Load a previously save reference at the given path
+
+####`DeleteReference` - v1.2
+Delete a previously save reference
+
+####`DeleteAllReferences` - v1.2
+Delete all save references
 
 
 3 - Use Cases:
