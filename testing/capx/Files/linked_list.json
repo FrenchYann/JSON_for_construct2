@@ -1,0 +1,10 @@
+{
+  "value":"a",
+  "next":{
+    "value":"b",
+    "next":{
+      "value":"c",
+      "next":null
+    }
+  }
+}

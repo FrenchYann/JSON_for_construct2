@@ -1,0 +1,1436 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <variable constant="1" name="FALSE" sid="796409180055561" static="0" type="number">0</variable>
+        <comment>just testing foreach loops &apos;cause it&apos;s a pain to do directly javascript</comment>
+        <event-block sid="436844698267969">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="845156216927803" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Call function" sid="921350085798127" type="f">
+                    <param id="0" name="Name">&quot;loadJsons&quot;</param>
+                    <param id="1" name="Parameter {n}">&quot;simple_json.json,complex_json.json,other_complex_json.json,linked_list.json&quot;{###}&quot;,&quot;</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="251380947706991">
+            <conditions>
+                <condition id="0" name="On function" sid="313528533769622" type="f">
+                    <param id="0" name="Name">&quot;loadJsons&quot;</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <variable constant="0" name="json_count" sid="101356169382113" static="0" type="number">0</variable>
+                <variable constant="0" name="json_name" sid="312684978290562" static="0" type="text"></variable>
+                <event-block sid="970291083587115">
+                    <conditions />
+                    <actions>
+                        <action id="-9" name="Set value" sid="495704036611078" type="System">
+                            <param id="0" name="Variable">json_count</param>
+                            <param id="1" name="Value">tokencount(f.Param(0), f.Param(1))</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="414351064683948">
+                    <conditions>
+                        <condition id="-12" name="Repeat" sid="499835190045945" type="System">
+                            <param id="0" name="Count">json_count</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="870978676247032" type="System">
+                            <param id="0" name="Variable">json_name</param>
+                            <param id="1" name="Value">tokenat(f.Param(0), loopindex, f.Param(1))</param>
+                        </action>
+                        <action id="0" name="Add key" sid="728569559618084" type="json_called">
+                            <param id="0" name="Key">json_name</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="0" name="Request URL" sid="250969084178196" type="AJAX">
+                            <param id="0" name="Tag">json_name</param>
+                            <param id="1" name="URL">json_name</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block sid="108998828807612">
+            <conditions>
+                <condition id="3" name="On any completed" sid="974783898534207" type="AJAX" />
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="618626291797370">
+                    <conditions />
+                    <actions>
+                        <action id="2" name="Delete key" sid="197994922346889" type="json_called">
+                            <param id="0" name="Key">AJAX.Tag</param>
+                        </action>
+                        <action id="0" name="Add key" sid="402731880543961" type="json_loaded">
+                            <param id="0" name="Key">AJAX.Tag</param>
+                            <param id="1" name="Value">AJAX.LastData</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="296644796130158">
+                    <conditions>
+                        <condition id="4" name="Is empty" sid="298353661658214" type="json_called" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="514840307928581" type="f">
+                            <param id="0" name="Name">&quot;startForeachTest&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                        <action id="0" name="Call function" sid="170344473757609" type="f">
+                            <param id="0" name="Name">&quot;startReferenceTest&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                        <action id="0" name="Call function" sid="859307245507723" type="f">
+                            <param id="0" name="Name">&quot;printReport&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-group description="" sid="212293613753629" title="Foreach Tests">
+            <sub-events>
+                <event-group description="" sid="831989705570226" title="Helper Functions 1 ">
+                    <sub-events>
+                        <event-block sid="432771346089601">
+                            <conditions>
+                                <condition id="0" name="On function" sid="537439329763056" type="f">
+                                    <param id="0" name="Name">&quot;CopyJSON1toJSON2&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="301525721907696">
+                                    <conditions>
+                                        <condition id="50" name="Is null" sid="456655009125656" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="40" name="Set null" sid="161708888493218" type="JSON2">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="359107398697269">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="793908804695110" type="System" />
+                                        <condition id="30" name="Is number" sid="638639906067538" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="20" name="Set Value" sid="163786351330770" type="JSON2">
+                                            <param id="0" name="Value">JSON1.CurrentValue</param>
+                                            <param id="1" name="Reference point">1</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="488152713966518">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="730251113959810" type="System" />
+                                        <condition id="40" name="Is string" sid="721161731692606" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="20" name="Set Value" sid="397855455440399" type="JSON2">
+                                            <param id="0" name="Value">JSON1.CurrentValue</param>
+                                            <param id="1" name="Reference point">1</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="983948952099640">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="994058547361112" type="System" />
+                                        <condition id="60" name="Is undefined" sid="635561065305037" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="40" name="Set null" sid="773552507016352" type="JSON2">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="331006438862367">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="842372961057772" type="System" />
+                                        <condition id="20" name="Is boolean" sid="301555783751875" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="993382405409673">
+                                            <conditions>
+                                                <condition id="-8" name="Compare two values" sid="499486957589612" type="System">
+                                                    <param id="0" name="First value">JSON1.CurrentValue</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Second value">FALSE</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="30" name="Set Boolean" sid="932909341141256" type="JSON2">
+                                                    <param id="0" name="value">1</param>
+                                                    <param id="1" name="Reference point">1</param>
+                                                    <param id="2" name="Key {n}"></param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="195647799803560">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="995578441925736" type="System" />
+                                            </conditions>
+                                            <actions>
+                                                <action id="30" name="Set Boolean" sid="989988702530189" type="JSON2">
+                                                    <param id="0" name="value">0</param>
+                                                    <param id="1" name="Reference point">1</param>
+                                                    <param id="2" name="Key {n}"></param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block sid="592624594150096">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="161057108380825" type="System" />
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="882008297852746">
+                                            <conditions>
+                                                <condition id="10" name="Is array" sid="897544667165549" type="JSON1">
+                                                    <param id="0" name="Reference point">1</param>
+                                                    <param id="1" name="Key {n}"></param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="10" name="Set New Array" sid="176782061964256" type="JSON2">
+                                                    <param id="0" name="Reference point">1</param>
+                                                    <param id="1" name="Key {n}"></param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="721498372396829">
+                                            <conditions>
+                                                <condition id="0" name="Is object" sid="807642727498525" type="JSON1">
+                                                    <param id="0" name="Reference point">1</param>
+                                                    <param id="1" name="Key {n}"></param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Set New Object" sid="383533342768952" type="JSON2">
+                                                    <param id="0" name="Reference point">1</param>
+                                                    <param id="1" name="Key {n}"></param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="673411109693972">
+                                            <conditions>
+                                                <condition id="100" name="For each property" sid="612238596092597" type="JSON1">
+                                                    <param id="0" name="Reference point">1</param>
+                                                    <param id="1" name="Key {n}"></param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="210" name="Push Path Node" sid="576100532892434" type="JSON2">
+                                                    <param id="0" name="Node">JSON1.CurrentKey</param>
+                                                </action>
+                                                <action id="0" name="Call function" sid="754589546546096" type="f">
+                                                    <param id="0" name="Name">&quot;CopyJSON1toJSON2&quot;</param>
+                                                    <param id="1" name="Parameter {n}"></param>
+                                                </action>
+                                                <action id="220" name="Pop Path Node" sid="639747496723026" type="JSON2" />
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-group>
+                <event-block sid="104365574289830">
+                    <conditions>
+                        <condition id="0" name="On function" sid="392632725607348" type="f">
+                            <param id="0" name="Name">&quot;startForeachTest&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <comment>empty</comment>
+                        <event-block sid="934985932008866">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <variable constant="0" name="cycles" sid="648330020210231" static="0" type="number">0</variable>
+                                <comment>action</comment>
+                                <event-block sid="113944217906854">
+                                    <conditions>
+                                        <condition id="100" name="For each property" sid="144439189872375" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="899503539119719">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="523639933891342" type="System">
+                                                    <param id="0" name="Variable">cycles</param>
+                                                    <param id="1" name="Value">cycles + 1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="131662443055053">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="520888447658983" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">cycles{###}0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>empty object</comment>
+                        <event-block sid="692972149543807">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <variable constant="0" name="cycles" sid="244581146701412" static="0" type="number">0</variable>
+                                <event-block sid="999639853210918">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Set New Object" sid="722489762019794" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="686356339202544">
+                                    <conditions>
+                                        <condition id="100" name="For each property" sid="631746887154276" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="953387885519069">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="528701143439885" type="System">
+                                                    <param id="0" name="Variable">cycles</param>
+                                                    <param id="1" name="Value">cycles + 1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="869065571912569">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="944238446457332" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">cycles{###}0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>empty array</comment>
+                        <event-block sid="979438452340651">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <variable constant="0" name="cycles" sid="133813900818043" static="0" type="number">0</variable>
+                                <event-block sid="886408196142102">
+                                    <conditions />
+                                    <actions>
+                                        <action id="10" name="Set New Array" sid="680813695404044" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="941796141132336">
+                                    <conditions>
+                                        <condition id="100" name="For each property" sid="431520646454918" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="262126886089301">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="895785012756107" type="System">
+                                                    <param id="0" name="Variable">cycles</param>
+                                                    <param id="1" name="Value">cycles + 1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="210974363444798">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="273501113831287" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">cycles{###}0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>object with an entry</comment>
+                        <event-block sid="526116874157800">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <variable constant="0" name="cycles" sid="105297533466165" static="0" type="number">0</variable>
+                                <event-block sid="184133386531866">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Set New Object" sid="895438499312797" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="20" name="Set Value" sid="297912842853360" type="JSON1">
+                                            <param id="0" name="Value">0</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}">&quot;key&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="674884456859968">
+                                    <conditions>
+                                        <condition id="100" name="For each property" sid="468252018314135" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="844399982598732">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="428719182751617" type="System">
+                                                    <param id="0" name="Variable">cycles</param>
+                                                    <param id="1" name="Value">cycles + 1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="246519883023688">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="528741500795442" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">cycles{###}1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>array an entry</comment>
+                        <event-block sid="308744638458729">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <variable constant="0" name="cycles" sid="562741279651382" static="0" type="number">0</variable>
+                                <event-block sid="893234338196562">
+                                    <conditions />
+                                    <actions>
+                                        <action id="10" name="Set New Array" sid="960928766430302" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="20" name="Set Value" sid="362732462094246" type="JSON1">
+                                            <param id="0" name="Value">0</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="368882851858910">
+                                    <conditions>
+                                        <condition id="100" name="For each property" sid="600107053762771" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="910855108165413">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="149293853837853" type="System">
+                                                    <param id="0" name="Variable">cycles</param>
+                                                    <param id="1" name="Value">cycles + 1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="410995137949407">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="441738106942461" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">cycles{###}1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>object with some entries</comment>
+                        <event-block sid="656187054346825">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <variable constant="0" name="cycles" sid="328666080667294" static="0" type="number">0</variable>
+                                <variable constant="0" name="expectedCycles" sid="764395222249292" static="0" type="number">5</variable>
+                                <event-block sid="531734032437904">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Set New Object" sid="182829632411974" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="588612593271843">
+                                    <conditions>
+                                        <condition id="-12" name="Repeat" sid="683303260230159" type="System">
+                                            <param id="0" name="Count">expectedCycles</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="20" name="Set Value" sid="939901108803734" type="JSON1">
+                                            <param id="0" name="Value">loopindex</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}">&quot;key_&quot;&amp;loopindex</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="216602044923902">
+                                    <conditions>
+                                        <condition id="100" name="For each property" sid="623976210750009" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="387956455671252">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="126838681190440" type="System">
+                                                    <param id="0" name="Variable">cycles</param>
+                                                    <param id="1" name="Value">cycles + 1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="421741648945190">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="475021429502811" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">cycles{###}expectedCycles</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>array with some entries</comment>
+                        <event-block sid="387208790654293">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <variable constant="0" name="cycles" sid="623468319002136" static="0" type="number">0</variable>
+                                <variable constant="0" name="expectedCycles" sid="983422483022687" static="0" type="number">5</variable>
+                                <event-block sid="761148666127681">
+                                    <conditions />
+                                    <actions>
+                                        <action id="10" name="Set New Array" sid="865990291855093" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="20" name="Set Value" sid="663389197463165" type="JSON1">
+                                            <param id="0" name="Value">0</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="164602341107640">
+                                    <conditions>
+                                        <condition id="-12" name="Repeat" sid="294258085032113" type="System">
+                                            <param id="0" name="Count">expectedCycles</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="20" name="Set Value" sid="962280445358928" type="JSON1">
+                                            <param id="0" name="Value">loopindex</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}">loopindex</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="601394816713911">
+                                    <conditions>
+                                        <condition id="100" name="For each property" sid="144628126440192" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="390075850952706">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="268370828053096" type="System">
+                                                    <param id="0" name="Variable">cycles</param>
+                                                    <param id="1" name="Value">cycles + 1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="863003423474913">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="623464045317448" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">cycles{###}expectedCycles</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>simple json copy</comment>
+                        <event-block sid="660913197066771">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <event-block sid="263765861376486">
+                                    <conditions />
+                                    <actions>
+                                        <action id="60" name="LoadJSON" sid="897058386442718" type="JSON1">
+                                            <param id="0" name="JSON">json_loaded.Get(&quot;simple_json.json&quot;)</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                        <action id="200" name="Set Current Path" sid="941612635238591" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="55" name="Clear" sid="414863314073939" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="200" name="Set Current Path" sid="782908060068653" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="289955638758886">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="139413882705935" type="f">
+                                            <param id="0" name="Name">&quot;CopyJSON1toJSON2&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="898782327166480">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="207141089330371" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">JSON2.AsJson(0){###}JSON1.AsJson(0)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>complex json copy - root is array</comment>
+                        <event-block sid="503010613507310">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <event-block sid="597684813566299">
+                                    <conditions />
+                                    <actions>
+                                        <action id="60" name="LoadJSON" sid="605182482518707" type="JSON1">
+                                            <param id="0" name="JSON">json_loaded.Get(&quot;complex_json.json&quot;)</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                        <action id="200" name="Set Current Path" sid="702731185972101" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="55" name="Clear" sid="763102938170771" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="200" name="Set Current Path" sid="278995494326085" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="155138999816500">
+                                    <conditions />
+                                    <actions>
+                                        <action id="10" name="Set New Array" sid="929918601058581" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="0" name="Call function" sid="864100809402353" type="f">
+                                            <param id="0" name="Name">&quot;CopyJSON1toJSON2&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="691433400816343">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="116890347024905" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">JSON2.AsJson(0){###}JSON1.AsJson(0)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>complex json copy - root is object</comment>
+                        <event-block sid="952949458910863">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <event-block sid="163860609753882">
+                                    <conditions />
+                                    <actions>
+                                        <action id="60" name="LoadJSON" sid="997486047757690" type="JSON1">
+                                            <param id="0" name="JSON">json_loaded.Get(&quot;other_complex_json.json&quot;)</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                        <action id="200" name="Set Current Path" sid="185921047160800" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="55" name="Clear" sid="811789828163881" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="200" name="Set Current Path" sid="353785041625275" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="597904424212355">
+                                    <conditions />
+                                    <actions>
+                                        <action id="10" name="Set New Array" sid="632754745168535" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="0" name="Call function" sid="878568636498923" type="f">
+                                            <param id="0" name="Name">&quot;CopyJSON1toJSON2&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="814161412187234">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="280058592331361" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">JSON2.AsJson(0){###}JSON1.AsJson(0)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="951835578181004" title="Reference Tests">
+            <sub-events>
+                <event-group description="" sid="975267677627948" title="Helper Functions 2">
+                    <sub-events>
+                        <comment>loadReferenceToTail(referenceName, currentRecursionDepth)</comment>
+                        <event-block sid="915495134678437">
+                            <conditions>
+                                <condition id="0" name="On function" sid="434852842530472" type="f">
+                                    <param id="0" name="Name">&quot;loadReferenceToTail&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="903247173473267">
+                                    <conditions>
+                                        <condition id="300" name="Reference Exists" sid="515926061240079" type="JSON1">
+                                            <param id="0" name="Reference name">f.Param(0)</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="862948122848534">
+                                            <conditions>
+                                                <condition id="50" inverted="1" name="Is null" sid="414606910928954" type="JSON1">
+                                                    <param id="0" name="Reference point">1</param>
+                                                    <param id="1" name="Key {n}">&quot;next&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="325325492794562">
+                                                    <conditions />
+                                                    <actions>
+                                                        <action id="210" name="Push Path Node" sid="810492112234306" type="JSON1">
+                                                            <param id="0" name="Node">&quot;next&quot;</param>
+                                                        </action>
+                                                        <action id="0" name="Call function" sid="677637659958684" type="f">
+                                                            <param id="0" name="Name">&quot;loadReferenceToTail&quot;</param>
+                                                            <param id="1" name="Parameter {n}">f.Param(0){###}f.Param(1)+1</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
+                                        </event-block>
+                                        <event-block sid="656323557853351">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="309323595552777" type="System" />
+                                            </conditions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="220759966193488">
+                                                    <conditions />
+                                                    <actions>
+                                                        <action id="310" name="Load Reference" sid="806885529975884" type="JSON1">
+                                                            <param id="0" name="Reference name">f.Param(0)</param>
+                                                            <param id="1" name="Reference point">1</param>
+                                                            <param id="2" name="Key {n}">&quot;next&quot;</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                                <comment>reset the state of the path from before the method was called</comment>
+                                                <event-block sid="553370804098019">
+                                                    <conditions>
+                                                        <condition id="-12" name="Repeat" sid="168355898675010" type="System">
+                                                            <param id="0" name="Count">f.Param(1)</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="220" name="Pop Path Node" sid="114300771996971" type="JSON1" />
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>loadReferenceToTail(currentRecursionDepth, recursionDepthLimit)&#x0D;&#x0A;returns the maximum depth of recursion</comment>
+                        <event-block sid="522876066155309">
+                            <conditions>
+                                <condition id="0" name="On function" sid="863265959378480" type="f">
+                                    <param id="0" name="Name">&quot;inspectRing&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <variable constant="0" name="count" sid="600513341322311" static="0" type="number">0</variable>
+                                <event-block sid="630325820213172">
+                                    <conditions>
+                                        <condition id="50" inverted="1" name="Is null" sid="420202203512148" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}">&quot;next&quot;</param>
+                                        </condition>
+                                        <condition id="60" inverted="1" name="Is undefined" sid="600353596494951" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}">&quot;next&quot;</param>
+                                        </condition>
+                                        <condition id="1" name="Compare parameter" sid="113344740632742" type="f">
+                                            <param id="0" name="Index">0</param>
+                                            <param id="1" name="Comparison">2</param>
+                                            <param id="2" name="Value">f.Param(1)</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="244937337600319">
+                                            <conditions />
+                                            <actions>
+                                                <action id="210" name="Push Path Node" sid="731083896857906" type="JSON1">
+                                                    <param id="0" name="Node">&quot;next&quot;</param>
+                                                </action>
+                                                <action id="-9" name="Set value" sid="643166732293336" type="System">
+                                                    <param id="0" name="Variable">count</param>
+                                                    <param id="1" name="Value">f.Call(&quot;inspectRing&quot;,f.Param(0)+1,f.Param(1))</param>
+                                                </action>
+                                                <action id="1" name="Set return value" sid="220731788782315" type="f">
+                                                    <param id="0" name="Value">count</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block sid="489278633279411">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="944643572249627" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="1" name="Set return value" sid="387522783145773" type="f">
+                                            <param id="0" name="Value">f.Param(0)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-group>
+                <event-block sid="923440237754268">
+                    <conditions>
+                        <condition id="0" name="On function" sid="635919426298054" type="f">
+                            <param id="0" name="Name">&quot;startReferenceTest&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <comment>managing references</comment>
+                        <event-block sid="109337150760790">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <event-block sid="967515063264412">
+                                    <conditions />
+                                    <actions>
+                                        <action id="55" name="Clear" sid="782280831679604" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="55" name="Clear" sid="958339036660519" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="330" name="Delete all references" sid="446146189566857" type="JSON1" />
+                                    </actions>
+                                </event-block>
+                                <event-block sid="469287364583443">
+                                    <conditions />
+                                    <actions>
+                                        <action id="60" name="LoadJSON" sid="907779603886233" type="JSON1">
+                                            <param id="0" name="JSON">json_loaded.Get(&quot;simple_json.json&quot;)</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="638682398746020">
+                                    <conditions>
+                                        <condition id="300" name="Reference Exists" sid="474714734620398" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="966255652796487" type="f">
+                                            <param id="0" name="Name">&quot;assertFail&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="860558185603822">
+                                    <conditions />
+                                    <actions>
+                                        <action id="300" name="Save Reference" sid="645895774641386" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="567867958009427">
+                                    <conditions>
+                                        <condition id="300" inverted="1" name="Reference Exists" sid="598800627427119" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="840025419590436" type="f">
+                                            <param id="0" name="Name">&quot;assertFail&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="728077337369472">
+                                    <conditions />
+                                    <actions>
+                                        <action id="320" name="Delete Reference" sid="516403536951904" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="368794970958358">
+                                    <conditions>
+                                        <condition id="300" name="Reference Exists" sid="686885685385519" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="618097902244375" type="f">
+                                            <param id="0" name="Name">&quot;assertFail&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="294515535432151">
+                                    <conditions />
+                                    <actions>
+                                        <action id="300" name="Save Reference" sid="557017282710273" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                        <action id="300" name="Save Reference" sid="122014175059810" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;other_ref&quot;</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block any="1" sid="470701485961136">
+                                    <conditions>
+                                        <condition id="300" inverted="1" name="Reference Exists" sid="425027245129880" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                        </condition>
+                                        <condition id="300" inverted="1" name="Reference Exists" sid="627419265983661" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;other_ref&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="186775971199525" type="f">
+                                            <param id="0" name="Name">&quot;assertFail&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="581944223084073">
+                                    <conditions />
+                                    <actions>
+                                        <action id="330" name="Delete all references" sid="296577188660696" type="JSON1" />
+                                    </actions>
+                                </event-block>
+                                <event-block any="1" sid="521283113191731">
+                                    <conditions>
+                                        <condition id="300" name="Reference Exists" sid="751742840226202" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                        </condition>
+                                        <condition id="300" name="Reference Exists" sid="462190094628099" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;other_ref&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="226959624094022" type="f">
+                                            <param id="0" name="Name">&quot;assertFail&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>simple save and load</comment>
+                        <event-block sid="214254933115317">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <event-block sid="912406412675049">
+                                    <conditions />
+                                    <actions>
+                                        <action id="55" name="Clear" sid="924860551370187" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="55" name="Clear" sid="352230196755430" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="330" name="Delete all references" sid="822871418831304" type="JSON1" />
+                                        <action id="60" name="LoadJSON" sid="657159310918882" type="JSON1">
+                                            <param id="0" name="JSON">json_loaded.Get(&quot;simple_json.json&quot;)</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="860848669453134">
+                                    <conditions />
+                                    <actions>
+                                        <action id="300" name="Save Reference" sid="814602935297223" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                        <action id="310" name="Load Reference" sid="869873065853633" type="JSON2">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                        <action id="320" name="Delete Reference" sid="893771737392921" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;ref&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>test</comment>
+                                <event-block sid="631072823880001">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="192942471980309" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">JSON2.AsJson(0){###}JSON1.AsJson(0)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <comment>ring</comment>
+                        <event-block sid="571791062702911">
+                            <conditions />
+                            <actions />
+                            <sub-events>
+                                <comment>setup</comment>
+                                <event-block sid="358373203644423">
+                                    <conditions />
+                                    <actions>
+                                        <action id="55" name="Clear" sid="811362807619508" type="JSON1">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="55" name="Clear" sid="138778257065551" type="JSON2">
+                                            <param id="0" name="Reference point">0</param>
+                                            <param id="1" name="Key {n}"></param>
+                                        </action>
+                                        <action id="330" name="Delete all references" sid="429560540095136" type="JSON1" />
+                                        <action id="60" name="LoadJSON" sid="385821793740378" type="JSON1">
+                                            <param id="0" name="JSON">json_loaded.Get(&quot;linked_list.json&quot;)</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>action</comment>
+                                <event-block sid="378808463054384">
+                                    <conditions />
+                                    <actions>
+                                        <action id="300" name="Save Reference" sid="304219882669967" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;head&quot;</param>
+                                            <param id="1" name="Reference point">0</param>
+                                            <param id="2" name="Key {n}"></param>
+                                        </action>
+                                        <action id="0" name="Call function" sid="620353699079557" type="f">
+                                            <param id="0" name="Name">&quot;loadReferenceToTail&quot;</param>
+                                            <param id="1" name="Parameter {n}">&quot;head&quot;{###}0</param>
+                                        </action>
+                                        <action id="320" name="Delete Reference" sid="669942324384801" type="JSON1">
+                                            <param id="0" name="Reference name">&quot;head&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>now inspection should check that you&apos;re not moving in circle...&#x0D;&#x0A;let&apos;s test that</comment>
+                                <event-block sid="494446065038638">
+                                    <conditions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="714391696860179" type="f">
+                                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                                            <param id="1" name="Parameter {n}">f.Call(&quot;inspectRing&quot;,0,100){###}100</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="604930446453928" title="Assertions">
+            <sub-events>
+                <variable constant="0" name="assert_count" sid="959254385431762" static="1" type="number">0</variable>
+                <variable constant="0" name="fail_count" sid="874375603001103" static="1" type="number">0</variable>
+                <event-block sid="474061686356400">
+                    <conditions>
+                        <condition id="0" name="On function" sid="509981343951887" type="f">
+                            <param id="0" name="Name">&quot;assertFail&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="145715935733137" type="System">
+                            <param id="0" name="Variable">assert_count</param>
+                            <param id="1" name="Value">assert_count + 1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="705745868482960">
+                            <conditions />
+                            <actions>
+                                <action id="0" name="Call function" sid="543901442173112" type="f">
+                                    <param id="0" name="Name">&quot;printError&quot;</param>
+                                    <param id="1" name="Parameter {n}">f.Param(0)</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="453637897229478" type="System">
+                                    <param id="0" name="Variable">fail_count</param>
+                                    <param id="1" name="Value">fail_count + 1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="711426927938292">
+                    <conditions>
+                        <condition id="0" name="On function" sid="999308184191052" type="f">
+                            <param id="0" name="Name">&quot;assertEqual&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="928358548843713" type="System">
+                            <param id="0" name="Variable">assert_count</param>
+                            <param id="1" name="Value">assert_count + 1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="633885233599263">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="653874721108111" type="System">
+                                    <param id="0" name="First value">f.Param(0)</param>
+                                    <param id="1" name="Comparison">1</param>
+                                    <param id="2" name="Second value">f.Param(1)</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="513506315026359" type="f">
+                                    <param id="0" name="Name">&quot;printError&quot;</param>
+                                    <param id="1" name="Parameter {n}">f.Param(0) &amp; newline &amp; &quot;expected &quot; &amp; f.Param(1)</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="560916643446845" type="System">
+                                    <param id="0" name="Variable">fail_count</param>
+                                    <param id="1" name="Value">fail_count + 1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="631538258830696">
+                    <conditions>
+                        <condition id="0" name="On function" sid="662125280831097" type="f">
+                            <param id="0" name="Name">&quot;assertNotEqual&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="220164217192147" type="System">
+                            <param id="0" name="Variable">assert_count</param>
+                            <param id="1" name="Value">assert_count + 1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="731976470845509">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="675789040916991" type="System">
+                                    <param id="0" name="First value">f.Param(0)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">f.Param(1)</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="305501058439508" type="f">
+                                    <param id="0" name="Name">&quot;printError&quot;</param>
+                                    <param id="1" name="Parameter {n}">f.Param(0) &amp; newline &amp; &quot;expected NOT &quot; &amp; f.Param(1)</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="336372433866565" type="System">
+                                    <param id="0" name="Variable">fail_count</param>
+                                    <param id="1" name="Value">fail_count + 1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="320238521152825">
+                    <conditions>
+                        <condition id="0" name="On function" sid="344090158623636" type="f">
+                            <param id="0" name="Name">&quot;assertTrue&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="425753869658901" type="System">
+                            <param id="0" name="Variable">assert_count</param>
+                            <param id="1" name="Value">assert_count + 1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="179662834762153">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="539204609709028" type="System">
+                                    <param id="0" name="First value">f.Param(0)</param>
+                                    <param id="1" name="Comparison">1</param>
+                                    <param id="2" name="Second value">FALSE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="185191545056734" type="f">
+                                    <param id="0" name="Name">&quot;printError&quot;</param>
+                                    <param id="1" name="Parameter {n}">f.Param(0) &amp; &quot;  is False&quot;&amp;newline&amp; &quot;expected True&quot;</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="710723611276045" type="System">
+                                    <param id="0" name="Variable">fail_count</param>
+                                    <param id="1" name="Value">fail_count + 1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="997897930632608">
+                    <conditions>
+                        <condition id="0" name="On function" sid="282348727676803" type="f">
+                            <param id="0" name="Name">&quot;assertFalse&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="848731751464166" type="System">
+                            <param id="0" name="Variable">assert_count</param>
+                            <param id="1" name="Value">assert_count + 1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="627848962210587">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="822301971879374" type="System">
+                                    <param id="0" name="First value">f.Param(0)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">FALSE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="270688755735570" type="f">
+                                    <param id="0" name="Name">&quot;printError&quot;</param>
+                                    <param id="1" name="Parameter {n}">f.Param(0) &amp; &quot;  is True&quot;&amp;newline&amp; &quot;expected False&quot;</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="517512531923252" type="System">
+                                    <param id="0" name="Variable">fail_count</param>
+                                    <param id="1" name="Value">fail_count + 1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="209417535484887">
+                    <conditions>
+                        <condition id="0" name="On function" sid="388737830854107" type="f">
+                            <param id="0" name="Name">&quot;printError&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="624446851679908">
+                            <conditions />
+                            <actions>
+                                <action id="0" name="Set text" sid="335158963427032" type="output">
+                                    <param id="0" name="Text">output.Text&amp;f.Param(0)&amp;newline</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="846552564929598">
+                    <conditions>
+                        <condition id="0" name="On function" sid="678960576270008" type="f">
+                            <param id="0" name="Name">&quot;printReport&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="932199546020958">
+                            <conditions />
+                            <actions>
+                                <action id="0" name="Set text" sid="438965675421570" type="Text">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="1" name="Append text" sid="947175775124779" type="Text">
+                                    <param id="0" name="Text">(assert_count - fail_count) &amp; &quot;/&quot;&amp;assert_count &amp; &quot; passed&quot;</param>
+                                </action>
+                                <action id="1" name="Append text" sid="956554940725227" type="Text">
+                                    <param id="0" name="Text">newline</param>
+                                </action>
+                                <action id="1" name="Append text" sid="699360140504144" type="Text">
+                                    <param id="0" name="Text"> fail_count&amp;&quot;/&quot;&amp;assert_count&amp;&quot; failed&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>
