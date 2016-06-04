@@ -158,14 +158,14 @@ AddAction(200, 0, "Set Current Path", "Path", "Set Current Path to "+path(0), "S
 
 AddStringParam("Reference name", "Name under which you save the reference");
 keyPath();
-AddAction(300, 0, "Save Reference", "Reference", "Save at {0} reference to "+path(1), "Save the reference using a key", "SaveReference");
+AddAction(300, 0, "Save Reference", "Shared Reference", "Save at {0} reference to "+path(1), "Save the reference using a key", "SaveReference");
 
 AddStringParam("Reference name", "Name you used when you savec the reference");
 keyPath();
-AddAction(310, 0, "Load Reference", "Reference", "Load reference {0} in "+path(1), "Load a previously save reference at the given path", "LoadReference");
+AddAction(310, 0, "Load Reference", "Shared Reference", "Load reference {0} in "+path(1), "Load a previously save reference at the given path", "LoadReference");
 
-AddStringParam("Reference name", "Name you used when you savec the reference");
-AddAction(320, 0, "Delete Reference", "Reference", "Delete reference {0}", "Delete a previously save reference", "DeleteReference");
+AddStringParam("Reference name", "Name you used when you save the reference");
+AddAction(320, 0, "Delete Reference", "Shared Reference", "Delete reference {0}", "Delete a previously save reference", "DeleteReference");
 
 
 ////////////////////////////////////////
