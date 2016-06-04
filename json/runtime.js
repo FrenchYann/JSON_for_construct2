@@ -11,6 +11,7 @@ assert2(cr.plugins_, "cr.plugins_ not created");
 cr.plugins_.JSON = function(runtime)
 {
     this.runtime = runtime;
+    this.references = {};
 };
 
 (function ()
@@ -28,7 +29,6 @@ cr.plugins_.JSON = function(runtime)
     {
         this.plugin = plugin;
         this.runtime = plugin.runtime;
-        this.references = {};
     };
 
     var typeProto = pluginProto.Type.prototype;
@@ -84,7 +84,7 @@ cr.plugins_.JSON = function(runtime)
         this.curPath  = null;
         this.curValue = null;
         // let's be clean with those references
-        var ref = this.type.references;
+        var ref = this.type.plugin.references;
         for (var name in ref) {
             if (Object.prototype.hasOwnProperty.call(ref,name) &&
                 ref[name].origin === this) {
@@ -541,7 +541,7 @@ cr.plugins_.JSON = function(runtime)
         } else {
             console.log("References:");
         }
-        var ref = this.type.references;
+        var ref = this.type.plugin.references;
         for (var name in ref) {
             if (Object.prototype.hasOwnProperty.call(ref,name)) {
                 if(grouping) {
@@ -569,16 +569,16 @@ cr.plugins_.JSON = function(runtime)
     };
 
     Acts.prototype.SaveReference = function(name,from_current,path) {
-        this.type.references[name] = {
+        this.type.plugin.references[name] = {
             value: this.getValueFromPath(from_current===1, path),
             origin: this
         };
     };
     Acts.prototype.LoadReference = function(name,from_current,path) {
-        this.setValueFromPath(from_current===1,path,this.type.references[name].value);
+        this.setValueFromPath(from_current===1,path,this.type.plugin.references[name].value);
     };
     Acts.prototype.DeleteReference = function(name) {
-        delete this.type.references[name];
+        delete this.type.plugin.references[name];
     };
 
     
