@@ -404,7 +404,6 @@ QUnit
     createAndSetCurrentPath(testCase.curPath);
     testCase.func(testCase.isRelative, testCase.path);
     acts.Clear(testCase.isRelative, testCase.path);
-    console.log(testCase.path, testCase.expected, jsonInstance.data);
     assert.deepEqual(jsonInstance.getValueFromPath(testCase.isRelative === 1, testCase.path), testCase.expected);
   });
 
