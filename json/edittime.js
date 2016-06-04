@@ -3,7 +3,7 @@
 	return {
 		"name":			"JSON",				// as appears in 'insert object' dialog, can be changed as long as "id" stays the same
 		"id":			"JSON",				// this is used to identify this plugin and is saved to the project; never change it
-		"version":		"1.1",					// (float in x.y format) Plugin version - C2 shows compatibility warnings based on this
+		"version":		"1.2",					// (float in x.y format) Plugin version - C2 shows compatibility warnings based on this
 		"description":	"Bring javascript's Objects and Array to Construct2",
 		"author":		"Yann Granjon",
 		"help url":		"",
