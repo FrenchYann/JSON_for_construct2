@@ -501,7 +501,7 @@ cr.plugins_.JSON = function(runtime)
 
         function clearIfValid(obj,prop) {
             if ( obj !== undefined && obj !== null && 
-                 (typeof obj === "object") && obj[prop] !== undefined){
+                 (typeof obj === "object")){
 
                 var t = type(obj[prop]);
                 if(t === "array") {
