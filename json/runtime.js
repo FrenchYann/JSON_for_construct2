@@ -624,20 +624,6 @@ cr.plugins_.JSON = function(runtime)
     // Expressions
     function Exps() {}
     
-    // the example expression
-    Exps.prototype.Length = function (ret)
-    {  
-        var path = Array.prototype.slice.call(arguments);
-        path.shift();
-        var from_current = path.shift();
-        var value = this.getValueFromPath(from_current===1,path);
-        if (type(value) === "array") {
-            ret.set_int(value.length);   
-        } else {
-            ret.set_int(-1);
-        }
-    };
-
     Exps.prototype.Size = function (ret)
     {  
         var path = Array.prototype.slice.call(arguments);
@@ -677,21 +663,6 @@ cr.plugins_.JSON = function(runtime)
             ret.set_any(t);
         }
     };
-    // deprecated
-    //*
-    Exps.prototype.ToJson = function (ret)
-    {  
-        var path = Array.prototype.slice.call(arguments);
-        path.shift();
-        var from_current = path.shift();
-        var value = this.getValueFromPath(from_current===1,path);
-        var t = type(value);
-        if(t === "undefined") {
-            ret.set_string(t);
-        } else {
-            ret.set_string(CircularJSON.stringify(value));        
-        }
-    };//*/
     Exps.prototype.AsJson = function (ret)
     {  
         var path = Array.prototype.slice.call(arguments);
