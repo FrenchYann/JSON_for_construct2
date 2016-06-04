@@ -11,6 +11,7 @@ assert2(cr.plugins_, "cr.plugins_ not created");
 cr.plugins_.JSON = function(runtime)
 {
     this.runtime = runtime;
+    this.references = {};
 };
 
 (function ()
@@ -28,7 +29,6 @@ cr.plugins_.JSON = function(runtime)
     {
         this.plugin = plugin;
         this.runtime = plugin.runtime;
-        this.references = {};
     };
 
     var typeProto = pluginProto.Type.prototype;
@@ -84,7 +84,7 @@ cr.plugins_.JSON = function(runtime)
         this.curPath  = null;
         this.curValue = null;
         // let's be clean with those references
-        var ref = this.type.references;
+        var ref = this.type.plugin.references;
         for (var name in ref) {
             if (Object.prototype.hasOwnProperty.call(ref,name) &&
                 ref[name].origin === this) {
@@ -155,7 +155,20 @@ cr.plugins_.JSON = function(runtime)
         // Each section is an object with two members: "title" and "properties".
         // "properties" is an array of individual debugger properties to display
         // with their name and value, and some other optional settings.
-        var str = CircularJSON.stringify(this.data[ROOT_KEY],"\t");
+        var str = CircularJSON.stringify(this.data[ROOT_KEY],null,"\t");
+        var self = this;
+        function printReferences() {
+          var res = "";
+          for(var r in self.type.plugin.references) {
+            res += '<div style="border:1px solid #bbb; margin-bottom:3px;">'+
+                     '<div style="background:#fff;">"'+r+'"</div>'+
+                      syntaxHighlight(CircularJSON.stringify(
+                        self.type.plugin.references[r].value,null,"\t")
+                      )+
+                    '</div>'; 
+          }
+          return res;
+        }
 
         propsections.push({
             "title": "JSON",
@@ -164,6 +177,14 @@ cr.plugins_.JSON = function(runtime)
                     "name":"content",
                     "value": "<span style=\"cursor:text;-webkit-user-select: text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;\">"+
                         syntaxHighlight(str)+
+                      "</span>",
+                    "html": true,
+                    "readonly":true
+                },
+                {
+                    "name":"shared references",
+                    "value": "<span style=\"cursor:text;-webkit-user-select: text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;\">"+
+                        printReferences()+
                       "</span>",
                     "html": true,
                     "readonly":true
@@ -398,6 +419,10 @@ cr.plugins_.JSON = function(runtime)
         this.runtime.popLoopStack();
         return false;
     };
+    Cnds.prototype.ReferenceExists = function (name)
+    {
+      return name in this.type.plugin.references;
+    };
 
 
 
@@ -476,7 +501,7 @@ cr.plugins_.JSON = function(runtime)
 
         function clearIfValid(obj,prop) {
             if ( obj !== undefined && obj !== null && 
-                 (typeof obj === "object") && obj[prop] !== undefined){
+                 (typeof obj === "object")){
 
                 var t = type(obj[prop]);
                 if(t === "array") {
@@ -530,10 +555,10 @@ cr.plugins_.JSON = function(runtime)
 
         if(grouping) {
             console.groupCollapsed(ROOT_KEY+":");
-            console.log(CircularJSON.stringify(this.data[ROOT_KEY],2));
+            console.log(CircularJSON.stringify(this.data[ROOT_KEY],null,2));
             console.groupEnd();
         } else {
-            console.log(ROOT_KEY+":",CircularJSON.stringify(this.data[ROOT_KEY],2));
+            console.log(ROOT_KEY+":",CircularJSON.stringify(this.data[ROOT_KEY],null,2));
         }
         console.log("Current Path:", CircularJSON.stringify(this.curPath));
         if (grouping) {
@@ -541,15 +566,15 @@ cr.plugins_.JSON = function(runtime)
         } else {
             console.log("References:");
         }
-        var ref = this.type.references;
+        var ref = this.type.plugin.references;
         for (var name in ref) {
             if (Object.prototype.hasOwnProperty.call(ref,name)) {
                 if(grouping) {
                     console.groupCollapsed(name);
-                    console.log(CircularJSON.stringify(ref[name].value,2));
+                    console.log(CircularJSON.stringify(ref[name].value,null,2));
                     console.groupEnd();
                 } else {
-                    console.log("["+name+"]",CircularJSON.stringify(ref[name].value,2));
+                    console.log("["+name+"]",CircularJSON.stringify(ref[name].value,null,2));
                 }
             }
         }
@@ -567,18 +592,27 @@ cr.plugins_.JSON = function(runtime)
             this.curPath = path.slice();
         }
     };
+    Acts.prototype.PushPathNode = function(node) {
+        this.curPath.push(node);
+    };
+    Acts.prototype.PopPathNode = function() {
+        this.curPath.pop();
+    };
 
     Acts.prototype.SaveReference = function(name,from_current,path) {
-        this.type.references[name] = {
+        this.type.plugin.references[name] = {
             value: this.getValueFromPath(from_current===1, path),
             origin: this
         };
     };
     Acts.prototype.LoadReference = function(name,from_current,path) {
-        this.setValueFromPath(from_current===1,path,this.type.references[name].value);
+        this.setValueFromPath(from_current===1,path,this.type.plugin.references[name].value);
     };
     Acts.prototype.DeleteReference = function(name) {
-        delete this.type.references[name];
+        delete this.type.plugin.references[name];
+    };
+    Acts.prototype.DeleteAllReferences = function(name) {
+        this.type.plugin.references = {};
     };
 
     
@@ -590,20 +624,6 @@ cr.plugins_.JSON = function(runtime)
     // Expressions
     function Exps() {}
     
-    // the example expression
-    Exps.prototype.Length = function (ret)
-    {  
-        var path = Array.prototype.slice.call(arguments);
-        path.shift();
-        var from_current = path.shift();
-        var value = this.getValueFromPath(from_current===1,path);
-        if (type(value) === "array") {
-            ret.set_int(value.length);   
-        } else {
-            ret.set_int(-1);
-        }
-    };
-
     Exps.prototype.Size = function (ret)
     {  
         var path = Array.prototype.slice.call(arguments);
@@ -643,21 +663,6 @@ cr.plugins_.JSON = function(runtime)
             ret.set_any(t);
         }
     };
-    // deprecated
-    //*
-    Exps.prototype.ToJson = function (ret)
-    {  
-        var path = Array.prototype.slice.call(arguments);
-        path.shift();
-        var from_current = path.shift();
-        var value = this.getValueFromPath(from_current===1,path);
-        var t = type(value);
-        if(t === "undefined") {
-            ret.set_string(t);
-        } else {
-            ret.set_string(CircularJSON.stringify(value));        
-        }
-    };//*/
     Exps.prototype.AsJson = function (ret)
     {  
         var path = Array.prototype.slice.call(arguments);

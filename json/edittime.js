@@ -3,7 +3,7 @@
 	return {
 		"name":			"JSON",				// as appears in 'insert object' dialog, can be changed as long as "id" stays the same
 		"id":			"JSON",				// this is used to identify this plugin and is saved to the project; never change it
-		"version":		"1.1",					// (float in x.y format) Plugin version - C2 shows compatibility warnings based on this
+		"version":		"1.2",					// (float in x.y format) Plugin version - C2 shows compatibility warnings based on this
 		"description":	"Bring javascript's Objects and Array to Construct2",
 		"author":		"Yann Granjon",
 		"help url":		"",
@@ -100,11 +100,14 @@ AddCondition(70, cf_none, "Is Empty", "Arrays & Objects", path(0)+" is empty", "
 
 // loopings
 keyPath();
-AddCondition(100, cf_looping, "For each property", "Object", "For each property at "+path(0), "Repeat the event for each properties of the object.", "ForEachProperty");
+AddCondition(100, cf_looping, "For each property", "Object", "For each property at "+path(0), "Repeat the event for each property of the object.", "ForEachProperty");
 
 // Error handling
 AddCondition(200, cf_trigger, "On JSON Parse Error", "JSON", "On JSON Parse Error", "Is triggered if a LoadJSON failed (usually due to ill formed JSON).", "OnJSONParseError");
 
+// References
+AddStringParam("Reference name", "Name you used when you save the reference");
+AddCondition(300, cf_none, "Reference Exists", "Shared Reference", "Reference {0} exists", "Return true if the reference exists", "ReferenceExists");
 
 ////////////////////////////////////////
 // Actions
@@ -156,16 +159,25 @@ AddAction(100, 0, "LogData", "Log", "LogData", "Log the whole JSON object", "Log
 keyPath();
 AddAction(200, 0, "Set Current Path", "Path", "Set Current Path to "+path(0), "Set the object's current relative path", "SetCurrentPath");
 
+AddStringParam("Node", "Node to push");
+AddAction(210, 0, "Push Path Node", "Path", "Push {0} to the path", "Push a new node to the object's current relative path", "PushPathNode");
+
+AddAction(220, 0, "Pop Path Node", "Path", "Pop a node from the path", "Pop the last node from the object's current relative path (do nothing if the path is empty)", "PopPathNode");
+
+
 AddStringParam("Reference name", "Name under which you save the reference");
 keyPath();
-AddAction(300, 0, "Save Reference", "Reference", "Save at {0} reference to "+path(1), "Save the reference using a key", "SaveReference");
+AddAction(300, 0, "Save Reference", "Shared Reference", "Save at {0} reference to "+path(1), "Save the reference using a key", "SaveReference");
 
 AddStringParam("Reference name", "Name you used when you savec the reference");
 keyPath();
-AddAction(310, 0, "Load Reference", "Reference", "Load reference {0} in "+path(1), "Load a previously save reference at the given path", "LoadReference");
+AddAction(310, 0, "Load Reference", "Shared Reference", "Load reference {0} in "+path(1), "Load a previously save reference at the given path", "LoadReference");
 
-AddStringParam("Reference name", "Name you used when you savec the reference");
-AddAction(320, 0, "Delete Reference", "Reference", "Delete reference {0}", "Delete a previously save reference", "DeleteReference");
+AddStringParam("Reference name", "Name you used when you save the reference");
+AddAction(320, 0, "Delete Reference", "Shared Reference", "Delete reference {0}", "Delete a previously save reference", "DeleteReference");
+
+
+AddAction(330, 0, "Delete all references", "Shared Reference", "Delete all references", "Delete all save references", "DeleteAllReferences");
 
 
 ////////////////////////////////////////
@@ -181,21 +193,21 @@ AddAction(320, 0, "Delete Reference", "Reference", "Delete reference {0}", "Dele
 
 // example
 expKeyPath();
-AddExpression(0, ef_deprecated | ef_return_number | ef_variadic_parameters, "Length", "Length", "Length", "Return the length of the array at the property (0 if empty or not array).");
+AddExpression(0, ef_deprecated | ef_return_number | ef_variadic_parameters, "Length", "Getter", "Size", "Return the length of the array at the property (0 if empty or not array).");
 
 expKeyPath();
-AddExpression(1, ef_return_number | ef_variadic_parameters, "Size", "Size", "Size", "Return the size of the array/object at the property (-1 if not an array/object).");
+AddExpression(1, ef_return_number | ef_variadic_parameters, "Size", "Getter", "Size", "Return the size of the array/object at the property (-1 if not an array/object).");
 
 expKeyPath();
-AddExpression(10, ef_return_any | ef_variadic_parameters, "Value", "Value", "Value", "Return the value at the property (Construct2 only supports strings and numbers, so false -> 0, true -> 1, object -> \"object\", array -> \"array\". the last two will trigger a warning in the console).");
+AddExpression(10, ef_return_any | ef_variadic_parameters, "Value", "Getter", "Value", "Return the value at the property (Construct2 only supports strings and numbers, so false -> 0, true -> 1, object -> \"object\", array -> \"array\". the last two will trigger a warning in the console).");
 
 expKeyPath();
-AddExpression(20, ef_deprecated | ef_return_string | ef_variadic_parameters, "ToJson", "ToJson", "ToJson", "Return the content of the property as a JSON string.");
+AddExpression(20, ef_deprecated | ef_return_string | ef_variadic_parameters, "ToJson", "JSON", "AsJson", "Return the content of the property as a JSON string.");
 expKeyPath();
-AddExpression(21, ef_return_string | ef_variadic_parameters, "AsJson", "AsJson", "AsJson", "Return the content of the property as a JSON string.");
+AddExpression(21, ef_return_string | ef_variadic_parameters, "AsJson", "JSON", "AsJson", "Return the content of the property as a JSON string.");
 
 expKeyPath();
-AddExpression(30, ef_return_string | ef_variadic_parameters, "TypeOf", "TypeOf", "TypeOf", "Return the type of the property.");
+AddExpression(30, ef_return_string | ef_variadic_parameters, "TypeOf", "Getter", "TypeOf", "Return the type of the property.");
 
 // loops
 AddExpression(100, ef_return_any, "Current Key", "Loop", "CurrentKey", "Get the current property of an object in a for each property loop.");

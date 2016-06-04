@@ -404,7 +404,6 @@ QUnit
     createAndSetCurrentPath(testCase.curPath);
     testCase.func(testCase.isRelative, testCase.path);
     acts.Clear(testCase.isRelative, testCase.path);
-    console.log(testCase.path, testCase.expected, jsonInstance.data);
     assert.deepEqual(jsonInstance.getValueFromPath(testCase.isRelative === 1, testCase.path), testCase.expected);
   });
 
@@ -425,7 +424,7 @@ QUnit.test("SaveReference_AtRoot_ReferenceSaved", function(assert) {
   var obj = {"key1":"value1", "key2":"value2"};
   acts.LoadJSON(JSON.stringify(obj), 0, []);
   acts.SaveReference("saved", 0, []);
-  assert.deepEqual(jsonType.references["saved"].value, obj);
+  assert.deepEqual(jsonPlugin.references["saved"].value, obj);
 });
 // LoadReference
 QUnit.test("LoadReference_AtRoot_ReferenceLoaded", function(assert) {
@@ -442,7 +441,7 @@ QUnit.test("DeleteReference_AtRoot_ReferenceDeleted", function(assert) {
   acts.LoadJSON(JSON.stringify(obj), 0, []);
   acts.SaveReference("saved", 0, []);
   acts.DeleteReference("saved");
-  assert.strictEqual(jsonType.references["saved"], undefined);
+  assert.strictEqual(jsonPlugin.references["saved"], undefined);
 });
 
 
@@ -450,30 +449,6 @@ QUnit.module("expressions", {
   beforeEach: setUp, 
   afterEach:tearDown
 });
-
-// Length
-QUnit
-  .cases(relativeCases)
-  .combinatorial(pathCases)
-  .combinatorial([
-    {title:"_Nothing_ReturnsMinusOne",     value:undefined,     expected: -1},
-    {title:"_EmptyArray_ReturnsZero",      value:[],            expected:  0},
-    {title:"_NonEmptyArray_ReturnsLength", value:['a','b','c'], expected:  3},
-    {title:"_Object_ReturnsMinusOne",      value:{},            expected: -1},
-    {title:"_Number_ReturnsMinusOne",      value:0,             expected: -1},
-    {title:"_String_ReturnsMinusOne",      value:'abc',         expected: -1},
-    {title:"_True_ReturnsMinusOne",        value:true,          expected: -1},
-    {title:"_False_ReturnsMinusOne",       value:false,         expected: -1},
-    {title:"_Null_ReturnsMinusOne",        value:null,          expected: -1},
-  ])
-  .test("Length ",function(testCase, assert){
-    createAndSetCurrentPath(testCase.curPath);
-    createPath(testCase.isRelative, testCase.path);
-    jsonInstance.setValueFromPath(testCase.isRelative === 1, testCase.path, testCase.value);
-    var ret = new cr.expvalue();
-    exps.Length.apply(exps, [ret, testCase.isRelative].concat(testCase.path)); 
-    assert.strictEqual(ret.data, testCase.expected);
-  });
 
 // Size
 QUnit

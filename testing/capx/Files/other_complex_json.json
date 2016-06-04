@@ -1,0 +1,57 @@
+{
+  "_id": "57531f7592a0bee403ddc0e2",
+  "index": 0,
+  "guid": "4dc20905-ae55-4d87-98bc-43be2e68760f",
+  "isActive": true,
+  "balance": "$2,044.70",
+  "picture": "http://placehold.it/32x32",
+  "age": 25,
+  "eyeColor": "brown",
+  "name": {
+    "first": "Jacobson",
+    "last": "Harmon"
+  },
+  "company": "ISODRIVE",
+  "email": "jacobson.harmon@isodrive.co.uk",
+  "phone": "+1 (903) 571-3236",
+  "address": "436 Monroe Street, Ivanhoe, Mississippi, 6683",
+  "about": "Sint labore eiusmod in quis cupidatat id. Consectetur magna velit ex ad occaecat exercitation. Lorem reprehenderit cupidatat laboris enim ad in commodo sit eiusmod. Mollit tempor velit mollit nostrud ullamco nostrud consectetur laboris. Veniam culpa aliqua eiusmod ipsum mollit in duis aliquip eiusmod in.",
+  "registered": "Monday, January 5, 2015 5:12 AM",
+  "latitude": "49.314508",
+  "longitude": "43.079888",
+  "tags": [
+    "aliqua",
+    "consequat",
+    "ullamco",
+    "ullamco",
+    "laborum"
+  ],
+  "range": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "friends": [
+    {
+      "id": 0,
+      "name": "Kristie Abbott"
+    },
+    {
+      "id": 1,
+      "name": "Lavonne Marshall"
+    },
+    {
+      "id": 2,
+      "name": "Bond Rush"
+    }
+  ],
+  "greeting": "Hello, Jacobson! You have 8 unread messages.",
+  "favoriteFruit": "apple"
+}

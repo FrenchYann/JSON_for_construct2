@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2project>
+    <name>JSON test</name>
+    <description></description>
+    <version>1.0.0.0</version>
+    <author></author>
+    <author-email></author-email>
+    <author-website>http://</author-website>
+    <app-id>com.mycompany.myapp</app-id>
+    <unique-id>p8iblhwjc5eb</unique-id>
+    <saved-with-version>22800</saved-with-version>
+    <used-plugins>
+        <plugin author="Scirra" id="AJAX" version="1">AJAX</plugin>
+        <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
+        <plugin author="Scirra" id="Function" version="1">Function</plugin>
+        <plugin author="Yann Granjon" id="JSON" version="1.100000024">JSON</plugin>
+        <plugin author="Scirra" id="Text" version="1">Text</plugin>
+        <plugin author="Scirra" id="TextBox" version="1">Text box</plugin>
+    </used-plugins>
+    <used-behaviors />
+    <used-effects />
+    <configurations>
+        <configuration exporter-descname="HTML5" exporter-id="html5" name="HTML5" />
+    </configurations>
+    <window-size>
+        <width>1280</width>
+        <height>720</height>
+    </window-size>
+    <pixel-rounding>0</pixel-rounding>
+    <preview-effects>1</preview-effects>
+    <use-loader-layout>0</use-loader-layout>
+    <configuration-settings>
+        <prop name="Clear background">Yes</prop>
+        <prop name="Downscaling">Medium quality</prop>
+        <prop name="Enable WebGL">On</prop>
+        <prop name="Fullscreen in browser">Letterbox scale</prop>
+        <prop name="Fullscreen scaling">High quality</prop>
+        <prop name="Loader style">Construct 2 splash</prop>
+        <prop name="Orientations">Any</prop>
+        <prop name="Pause on unfocus">No</prop>
+        <prop name="Physics engine">Box2D asm.js</prop>
+        <prop name="Preload sounds">Yes</prop>
+        <prop name="Preview browser">(default)</prop>
+        <prop name="Sampling">Linear</prop>
+        <prop name="Use high-DPI display">Yes</prop>
+    </configuration-settings>
+    <object-folder>
+        <object-type global="1" name="JSON1" sid="574661963861513">
+            <plugin id="JSON" />
+        </object-type>
+        <object-type name="f" sid="994727028274763">
+            <plugin id="Function" />
+        </object-type>
+        <object-type name="output" sid="233210969498636">
+            <plugin id="TextBox" />
+        </object-type>
+        <object-type name="Text" sid="265522991013455">
+            <plugin id="Text" />
+        </object-type>
+        <object-type name="AJAX" sid="474097027043308">
+            <plugin id="AJAX" />
+        </object-type>
+        <object-type global="1" name="json_loaded" sid="616041718983881">
+            <plugin id="Dictionary" />
+        </object-type>
+        <object-type global="1" name="json_called" sid="138239398392787">
+            <plugin id="Dictionary" />
+        </object-type>
+        <object-type global="1" name="JSON2" sid="741360924983797">
+            <plugin id="JSON" />
+        </object-type>
+    </object-folder>
+    <families />
+    <layout-folder>
+        <layout>Layout 1.xml</layout>
+    </layout-folder>
+    <event-folder>
+        <event-sheet>Event sheet 1.xml</event-sheet>
+    </event-folder>
+    <global-instances>
+        <global-instance type="f" uid="1" />
+        <global-instance type="AJAX" uid="4" />
+    </global-instances>
+    <sounds-folder />
+    <music-folder />
+    <files-folder>
+        <file-folder name="Icons">
+            <file name="icon-16.png" />
+            <file name="icon-32.png" />
+            <file name="icon-114.png" />
+            <file name="icon-128.png" />
+            <file name="icon-256.png" />
+            <file name="loading-logo.png" />
+        </file-folder>
+        <file name="complex_json.json" />
+        <file name="simple_json.json" />
+        <file name="other_complex_json.json" />
+        <file name="linked_list.json" />
+    </files-folder>
+</c2project>
