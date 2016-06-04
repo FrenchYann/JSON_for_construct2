@@ -1,6 +1,12 @@
 JSON for construct2
 ===================
 
+[DOWNLOAD latest version (1.2)](https://app.box.com/s/7n5wr49becx5j7gykvvm6pqbok2tlfmq)
+
+Earlier versions:
+- [v1.1](https://app.box.com/s/fo3feppn7ghbqtvj4lue)
+- [v1.0](https://app.box.com/s/7omvusf8kjiow1j7um3v)
+
 This plugin started as a way to load, inspect and modify any valid JSON  
 But really... it allows you to manipulate any kind of collection of data.  
 You don't necessarily need to import or export JSON, you can directly create and edit datas at runtime.
