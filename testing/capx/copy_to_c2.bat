@@ -1,1 +1,1 @@
-xcopy /S /Y "..\..\..\json" "%PROGRAMFILES%\Construct 2\exporters\html5\plugins\json"
+xcopy /S /Y "..\..\json" "%PROGRAMFILES%\Construct 2\exporters\html5\plugins\json"
