@@ -4,7 +4,6 @@
     <name>Event sheet 1</name>
     <events>
         <variable constant="1" name="FALSE" sid="796409180055561" static="0" type="number">0</variable>
-        <comment>just testing foreach loops &apos;cause it&apos;s a pain to do directly javascript</comment>
         <event-block sid="436844698267969">
             <conditions>
                 <condition id="-2" name="On start of layout" sid="845156216927803" type="System" />
@@ -830,67 +829,48 @@
                             </conditions>
                             <actions />
                             <sub-events>
+                                <variable constant="0" name="count" sid="659813912566556" static="0" type="number">0</variable>
                                 <event-block sid="903247173473267">
                                     <conditions>
-                                        <condition id="300" name="Reference Exists" sid="515926061240079" type="JSON1">
-                                            <param id="0" name="Reference name">f.Param(0)</param>
+                                        <condition id="-23" name="While" sid="813834105980908" type="System" />
+                                        <condition id="50" inverted="1" name="Is null" sid="142545886114167" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}">&quot;next&quot;</param>
+                                        </condition>
+                                        <condition id="60" inverted="1" name="Is undefined" sid="303331218845855" type="JSON1">
+                                            <param id="0" name="Reference point">1</param>
+                                            <param id="1" name="Key {n}">&quot;next&quot;</param>
                                         </condition>
                                     </conditions>
-                                    <actions />
-                                    <sub-events>
-                                        <event-block sid="862948122848534">
-                                            <conditions>
-                                                <condition id="50" inverted="1" name="Is null" sid="414606910928954" type="JSON1">
-                                                    <param id="0" name="Reference point">1</param>
-                                                    <param id="1" name="Key {n}">&quot;next&quot;</param>
-                                                </condition>
-                                            </conditions>
-                                            <actions />
-                                            <sub-events>
-                                                <event-block sid="325325492794562">
-                                                    <conditions />
-                                                    <actions>
-                                                        <action id="210" name="Push Path Node" sid="810492112234306" type="JSON1">
-                                                            <param id="0" name="Node">&quot;next&quot;</param>
-                                                        </action>
-                                                        <action id="0" name="Call function" sid="677637659958684" type="f">
-                                                            <param id="0" name="Name">&quot;loadReferenceToTail&quot;</param>
-                                                            <param id="1" name="Parameter {n}">f.Param(0){###}f.Param(1)+1</param>
-                                                        </action>
-                                                    </actions>
-                                                </event-block>
-                                            </sub-events>
-                                        </event-block>
-                                        <event-block sid="656323557853351">
-                                            <conditions>
-                                                <condition id="-22" name="Else" sid="309323595552777" type="System" />
-                                            </conditions>
-                                            <actions />
-                                            <sub-events>
-                                                <event-block sid="220759966193488">
-                                                    <conditions />
-                                                    <actions>
-                                                        <action id="310" name="Load Reference" sid="806885529975884" type="JSON1">
-                                                            <param id="0" name="Reference name">f.Param(0)</param>
-                                                            <param id="1" name="Reference point">1</param>
-                                                            <param id="2" name="Key {n}">&quot;next&quot;</param>
-                                                        </action>
-                                                    </actions>
-                                                </event-block>
-                                                <comment>reset the state of the path from before the method was called</comment>
-                                                <event-block sid="553370804098019">
-                                                    <conditions>
-                                                        <condition id="-12" name="Repeat" sid="168355898675010" type="System">
-                                                            <param id="0" name="Count">f.Param(1)</param>
-                                                        </condition>
-                                                    </conditions>
-                                                    <actions>
-                                                        <action id="220" name="Pop Path Node" sid="114300771996971" type="JSON1" />
-                                                    </actions>
-                                                </event-block>
-                                            </sub-events>
-                                        </event-block>
-                                    </sub-events>
+                                    <actions>
+                                        <action id="210" name="Push Path Node" sid="810492112234306" type="JSON1">
+                                            <param id="0" name="Node">&quot;next&quot;</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="717691380410747" type="System">
+                                            <param id="0" name="Variable">count</param>
+                                            <param id="1" name="Value">count + 1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="220759966193488">
+                                    <conditions />
+                                    <actions>
+                                        <action id="310" name="Load Reference" sid="806885529975884" type="JSON1">
+                                            <param id="0" name="Reference name">f.Param(0)</param>
+                                            <param id="1" name="Reference point">1</param>
+                                            <param id="2" name="Key {n}">&quot;next&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="553370804098019">
+                                    <conditions>
+                                        <condition id="-12" name="Repeat" sid="168355898675010" type="System">
+                                            <param id="0" name="Count">count</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="220" name="Pop Path Node" sid="114300771996971" type="JSON1" />
+                                    </actions>
                                 </event-block>
                             </sub-events>
                         </event-block>
@@ -904,48 +884,44 @@
                             <actions />
                             <sub-events>
                                 <variable constant="0" name="count" sid="600513341322311" static="0" type="number">0</variable>
-                                <event-block sid="630325820213172">
+                                <event-block sid="922779942382734">
                                     <conditions>
-                                        <condition id="50" inverted="1" name="Is null" sid="420202203512148" type="JSON1">
+                                        <condition id="-23" name="While" sid="608007292228903" type="System" />
+                                        <condition id="50" inverted="1" name="Is null" sid="253319753641977" type="JSON1">
                                             <param id="0" name="Reference point">1</param>
                                             <param id="1" name="Key {n}">&quot;next&quot;</param>
                                         </condition>
-                                        <condition id="60" inverted="1" name="Is undefined" sid="600353596494951" type="JSON1">
+                                        <condition id="60" inverted="1" name="Is undefined" sid="544499330470413" type="JSON1">
                                             <param id="0" name="Reference point">1</param>
                                             <param id="1" name="Key {n}">&quot;next&quot;</param>
                                         </condition>
-                                        <condition id="1" name="Compare parameter" sid="113344740632742" type="f">
-                                            <param id="0" name="Index">0</param>
+                                        <condition id="-14" name="Compare variable" sid="951698854154202" type="System">
+                                            <param id="0" name="Variable">count</param>
                                             <param id="1" name="Comparison">2</param>
-                                            <param id="2" name="Value">f.Param(1)</param>
+                                            <param id="2" name="Value">f.Param(0)</param>
                                         </condition>
                                     </conditions>
                                     <actions />
                                     <sub-events>
-                                        <event-block sid="244937337600319">
+                                        <event-block sid="962059408908024">
                                             <conditions />
                                             <actions>
                                                 <action id="210" name="Push Path Node" sid="731083896857906" type="JSON1">
                                                     <param id="0" name="Node">&quot;next&quot;</param>
                                                 </action>
-                                                <action id="-9" name="Set value" sid="643166732293336" type="System">
+                                                <action id="-9" name="Set value" sid="334195942969027" type="System">
                                                     <param id="0" name="Variable">count</param>
-                                                    <param id="1" name="Value">f.Call(&quot;inspectRing&quot;,f.Param(0)+1,f.Param(1))</param>
-                                                </action>
-                                                <action id="1" name="Set return value" sid="220731788782315" type="f">
-                                                    <param id="0" name="Value">count</param>
+                                                    <param id="1" name="Value">count + 1</param>
                                                 </action>
                                             </actions>
                                         </event-block>
                                     </sub-events>
                                 </event-block>
-                                <event-block sid="489278633279411">
-                                    <conditions>
-                                        <condition id="-22" name="Else" sid="944643572249627" type="System" />
-                                    </conditions>
+                                <event-block sid="780364001908700">
+                                    <conditions />
                                     <actions>
-                                        <action id="1" name="Set return value" sid="387522783145773" type="f">
-                                            <param id="0" name="Value">f.Param(0)</param>
+                                        <action id="1" name="Set return value" sid="220731788782315" type="f">
+                                            <param id="0" name="Value">count</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -1207,7 +1183,7 @@
                                     <actions>
                                         <action id="0" name="Call function" sid="714391696860179" type="f">
                                             <param id="0" name="Name">&quot;assertEqual&quot;</param>
-                                            <param id="1" name="Parameter {n}">f.Call(&quot;inspectRing&quot;,0,100){###}100</param>
+                                            <param id="1" name="Parameter {n}">f.Call(&quot;inspectRing&quot;,100){###}100</param>
                                         </action>
                                     </actions>
                                 </event-block>
