@@ -193,21 +193,21 @@ AddAction(330, 0, "Delete all references", "Shared Reference", "Delete all refer
 
 // example
 expKeyPath();
-AddExpression(0, ef_deprecated | ef_return_number | ef_variadic_parameters, "Length", "Length", "Length", "Return the length of the array at the property (0 if empty or not array).");
+AddExpression(0, ef_deprecated | ef_return_number | ef_variadic_parameters, "Length", "Getter", "Size", "Return the length of the array at the property (0 if empty or not array).");
 
 expKeyPath();
-AddExpression(1, ef_return_number | ef_variadic_parameters, "Size", "Size", "Size", "Return the size of the array/object at the property (-1 if not an array/object).");
+AddExpression(1, ef_return_number | ef_variadic_parameters, "Size", "Getter", "Size", "Return the size of the array/object at the property (-1 if not an array/object).");
 
 expKeyPath();
-AddExpression(10, ef_return_any | ef_variadic_parameters, "Value", "Value", "Value", "Return the value at the property (Construct2 only supports strings and numbers, so false -> 0, true -> 1, object -> \"object\", array -> \"array\". the last two will trigger a warning in the console).");
+AddExpression(10, ef_return_any | ef_variadic_parameters, "Value", "Getter", "Value", "Return the value at the property (Construct2 only supports strings and numbers, so false -> 0, true -> 1, object -> \"object\", array -> \"array\". the last two will trigger a warning in the console).");
 
 expKeyPath();
-AddExpression(20, ef_deprecated | ef_return_string | ef_variadic_parameters, "ToJson", "ToJson", "ToJson", "Return the content of the property as a JSON string.");
+AddExpression(20, ef_deprecated | ef_return_string | ef_variadic_parameters, "ToJson", "JSON", "AsJson", "Return the content of the property as a JSON string.");
 expKeyPath();
-AddExpression(21, ef_return_string | ef_variadic_parameters, "AsJson", "AsJson", "AsJson", "Return the content of the property as a JSON string.");
+AddExpression(21, ef_return_string | ef_variadic_parameters, "AsJson", "JSON", "AsJson", "Return the content of the property as a JSON string.");
 
 expKeyPath();
-AddExpression(30, ef_return_string | ef_variadic_parameters, "TypeOf", "TypeOf", "TypeOf", "Return the type of the property.");
+AddExpression(30, ef_return_string | ef_variadic_parameters, "TypeOf", "Getter", "TypeOf", "Return the type of the property.");
 
 // loops
 AddExpression(100, ef_return_any, "Current Key", "Loop", "CurrentKey", "Get the current property of an object in a for each property loop.");
