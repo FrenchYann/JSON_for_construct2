@@ -155,7 +155,7 @@ cr.plugins_.JSON = function(runtime)
         // Each section is an object with two members: "title" and "properties".
         // "properties" is an array of individual debugger properties to display
         // with their name and value, and some other optional settings.
-        var str = CircularJSON.stringify(this.data[ROOT_KEY],"\t");
+        var str = CircularJSON.stringify(this.data[ROOT_KEY],null,"\t");
 
         propsections.push({
             "title": "JSON",
@@ -534,10 +534,10 @@ cr.plugins_.JSON = function(runtime)
 
         if(grouping) {
             console.groupCollapsed(ROOT_KEY+":");
-            console.log(CircularJSON.stringify(this.data[ROOT_KEY],2));
+            console.log(CircularJSON.stringify(this.data[ROOT_KEY],null,2));
             console.groupEnd();
         } else {
-            console.log(ROOT_KEY+":",CircularJSON.stringify(this.data[ROOT_KEY],2));
+            console.log(ROOT_KEY+":",CircularJSON.stringify(this.data[ROOT_KEY],null,2));
         }
         console.log("Current Path:", CircularJSON.stringify(this.curPath));
         if (grouping) {
@@ -550,10 +550,10 @@ cr.plugins_.JSON = function(runtime)
             if (Object.prototype.hasOwnProperty.call(ref,name)) {
                 if(grouping) {
                     console.groupCollapsed(name);
-                    console.log(CircularJSON.stringify(ref[name].value,2));
+                    console.log(CircularJSON.stringify(ref[name].value,null,2));
                     console.groupEnd();
                 } else {
-                    console.log("["+name+"]",CircularJSON.stringify(ref[name].value,2));
+                    console.log("["+name+"]",CircularJSON.stringify(ref[name].value,null,2));
                 }
             }
         }
