@@ -193,7 +193,7 @@ AddAction(330, 0, "Delete all references", "Shared Reference", "Delete all refer
 
 // example
 expKeyPath();
-AddExpression(0, ef_deprecated | ef_return_number | ef_variadic_parameters, "Length", "Getter", "Size", "Return the length of the array at the property (0 if empty or not array).");
+AddExpression(0, ef_deprecated | ef_return_number | ef_variadic_parameters, "Length", "Getter", "Length", "Return the length of the array at the property (0 if empty or not array).");
 
 expKeyPath();
 AddExpression(1, ef_return_number | ef_variadic_parameters, "Size", "Getter", "Size", "Return the size of the array/object at the property (-1 if not an array/object).");
