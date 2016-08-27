@@ -1,9 +1,10 @@
 JSON for construct2
 ===================
 
-[DOWNLOAD latest version (1.2)](https://app.box.com/s/7n5wr49becx5j7gykvvm6pqbok2tlfmq)
+[DOWNLOAD latest version (1.2.1)](https://app.box.com/s/nk8lir8ullkqzg2ku94rmwdwdr2qv3t3)
 
 Earlier versions:
+- [v1.2](https://app.box.com/s/7n5wr49becx5j7gykvvm6pqbok2tlfmq)
 - [v1.1](https://app.box.com/s/fo3feppn7ghbqtvj4lue)
 - [v1.0](https://app.box.com/s/7omvusf8kjiow1j7um3v)
 
