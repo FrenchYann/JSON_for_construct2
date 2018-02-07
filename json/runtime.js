@@ -646,6 +646,7 @@ cr.plugins_.JSON = function(runtime)
             ret.set_int(-1);
         }
     };
+    Exps.prototype.Length = Exps.prototype.Size; // deprecated
 
     // the example expression
     Exps.prototype.Value = function (ret)
@@ -676,6 +677,7 @@ cr.plugins_.JSON = function(runtime)
             ret.set_string(CircularJSON.stringify(value));        
         }
     };
+    Exps.prototype.ToJson = Exps.prototype.AsJson; // deprecated
 
     Exps.prototype.TypeOf = function (ret)
     {  
