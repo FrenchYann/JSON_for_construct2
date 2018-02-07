@@ -3,7 +3,7 @@
 	return {
 		"name":			"JSON",				// as appears in 'insert object' dialog, can be changed as long as "id" stays the same
 		"id":			"JSON",				// this is used to identify this plugin and is saved to the project; never change it
-		"version":		"1.2.1",					// (float in x.y format) Plugin version - C2 shows compatibility warnings based on this
+		"version":		"1.2.2",					// (float in x.y format) Plugin version - C2 shows compatibility warnings based on this
 		"description":	"Bring javascript's Objects and Array to Construct2",
 		"author":		"Yann Granjon",
 		"help url":		"",
@@ -202,7 +202,7 @@ expKeyPath();
 AddExpression(10, ef_return_any | ef_variadic_parameters, "Value", "Getter", "Value", "Return the value at the property (Construct2 only supports strings and numbers, so false -> 0, true -> 1, object -> \"object\", array -> \"array\". the last two will trigger a warning in the console).");
 
 expKeyPath();
-AddExpression(20, ef_deprecated | ef_return_string | ef_variadic_parameters, "ToJson", "JSON", "AsJson", "Return the content of the property as a JSON string.");
+AddExpression(20, ef_deprecated | ef_return_string | ef_variadic_parameters, "ToJson", "JSON", "ToJson", "Return the content of the property as a JSON string.");
 expKeyPath();
 AddExpression(21, ef_return_string | ef_variadic_parameters, "AsJson", "JSON", "AsJson", "Return the content of the property as a JSON string.");
 
