@@ -114,6 +114,8 @@ cr.plugins_.JSON = function(runtime)
     };
    
 
+    // STUB
+    function logInvalidPath(path) {}
     
     // The comments around these functions ensure they are removed when exporting, since the
     // debugger code is no longer relevant after publishing.
