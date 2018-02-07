@@ -146,34 +146,34 @@ With that out of the way, let's list all we can do with the plugin.
 
 ### Conditions:
 
-####`Is object` - v1.0
+#### `Is object` - v1.0
 Returns true if the value at the given path is an Object (type of value holding key/value pairs like a dictionnary)
 
-####`Is array` - v1.0
+#### `Is array` - v1.0
 Returns true if the value at the given path is an Array (type of value holding a simple list of numerically indexed values)
 
-####`Is boolean` - v1.0
+#### `Is boolean` - v1.0
 Returns true if the value at the given path is either true of false
 
-####`Is number` - v1.0
+#### `Is number` - v1.0
 Returns true if the value at the given path is a number
 
-####`Is string` - v1.0
+#### `Is string` - v1.0
 Returns true if the value at the given path is a string
 
-####`Is null` - v1.0
+#### `Is null` - v1.0
 Returns true if the value at the given path is null
 
-####`Is undefined` - v1.0
+#### `Is undefined` - v1.0
 Returns true if the value at the given path doesn't exist
 
-####`Is Empty` - v1.1
+#### `Is Empty` - v1.1
 Returns true if the value at the given path is empty.
 If the value is an object, empty means 0 members
 If the value is an array, empty means 0 elements
 Otherwise, empty means undefined (i.e. a boolean, a number, a string, or null will be considered not empty)
 
-####`For each property` - v1.0
+#### `For each property` - v1.0
 Loops through the value at the given path. The value should be an object or an array. 
 And order cannot be predicted.
 However, to loop through arrays it would be better to do something like:
@@ -182,40 +182,40 @@ However, to loop through arrays it would be better to do something like:
   -> Browser | Log in console: JSON.Value(0, "my", "path", loopindex)
 ```
 
-####`OnJSONParseError` - v1.2
+#### `OnJSONParseError` - v1.2
 Is triggered if a LoadJSON failed (usually due to ill-formed JSON).
 
-####`ReferenceExists` - v1.2
+#### `ReferenceExists` - v1.2
 Return true if the reference exists
 
 
-###Actions:
+### Actions:
 
-####`Set New Object` - v1.0
+#### `Set New Object` - v1.0
 Creates a new empty object (list of key/value pairs akin to the dictionary) at the given path
 
-####`Set New Array` - v1.0
+#### `Set New Array` - v1.0
 Creates a new empty array (list of numerically indexed values) at the given path
 
-####`Set Value` - v1.0
+#### `Set Value` - v1.0
 Sets a string or number at the given path
 
-####`Set Boolean` - v1.0
+#### `Set Boolean` - v1.0
 Sets true or false at the given path
 
-####`Set null` - v1.0
+#### `Set null` - v1.0
 Sets null at the given path
 
-####`Delete` - v1.0
+#### `Delete` - v1.0
 Deletes the property at the given path (future access will be undefined)
 
-####`Clear` - v1.1 
+#### `Clear` - v1.1 
 Clear the object/array at the given path, if the value at the given path is neither an object nor an array, it will be deleted (future access will be undefined)
 
-####`LoadJSON` - v1.0
+#### `LoadJSON` - v1.0
 Loads any kind of JSON string. It will internally build a JSON object from it.
 
-####`Set Current Path` - v1.0
+#### `Set Current Path` - v1.0
 Sets the current relative path of the JSON object. Allows you to use some shortcuts when writing path and to loop through properties recursively.
 Example:
 ```glsl
@@ -235,40 +235,40 @@ Without using Set Current Path, it would look like this:
       -> Text | Append JSON.Value(0,"my","path","to","an","array",loopindex) & newline
 ```
 
-####`LogData` - v1.0
+#### `LogData` - v1.0
 That's the only thing without any path property, it allows you to log in the browser's console:
 - the entire object
 - the current path
 
-####`PushPathNode` - v1.2
+#### `PushPathNode` - v1.2
 Push a new node to the object's current relative path
 
-####`PopPathNode` - v1.2
+#### `PopPathNode` - v1.2
 Pop the last node from the object's current relative path (do nothing if the path is empty)
 
-####`SaveReference` - v1.2
+#### `SaveReference` - v1.2
 Save the reference using a key
 
-####`LoadReference` - v1.2
+#### `LoadReference` - v1.2
 Load a previously save reference at the given path
 
-####`DeleteReference` - v1.2
+#### `DeleteReference` - v1.2
 Delete a previously save reference
 
-####`DeleteAllReferences` - v1.2
+#### `DeleteAllReferences` - v1.2
 Delete all save references
 
 
-###Expressions:
+### Expressions:
 
-####`Length` - v1.0 - deprecated in v1.1
+#### `Length` - v1.0 - deprecated in v1.1
 Returns the Length of the array at the given path. If there's no array at the given path, it returns 0 (maybe should return -1)
 
-####`Size` - v1.1 
+#### `Size` - v1.1 
 Return the size of the array/object at the given path (-1 if not an array/object)
 Replace the deprecated Length expression
 
-####`Value` - v1.0 
+#### `Value` - v1.0 
 Returns the value at the given path. 
 If the value is:
 - a string, it returns the string
@@ -277,16 +277,16 @@ If the value is:
 - an array, it returns the string "array"
 - an object, it returns the string "object"
 
-####`ToJson` - v1.0 - deprecated in v1.1
+#### `ToJson` - v1.0 - deprecated in v1.1
 Replaced by AsJson for coherence
 
-####`AsJson` - v1.1 
+#### `AsJson` - v1.1 
 Returns a JSON of the data at the given path
 To export the entire object as JSON, do
 CODE: SELECT ALL
 JSON.ToJson(0)
 
-####`TypeOf` - v1.0
+#### `TypeOf` - v1.0
 Returns a string representing the type of the value at the given path:
 - "string" for a string
 - "number" for a number
@@ -296,17 +296,17 @@ Returns a string representing the type of the value at the given path:
 - "null" for a null value
 - "undefined" if there's nothing
 
-####`CurrentKey` - v1.0
+#### `CurrentKey` - v1.0
 Returns the current key in a foreach loop. Outside a loop returns an empty string "".
 
-####`CurrentValue` - v1.1 
+#### `CurrentValue` - v1.1 
 Returns the current value in a foreach loop. Outside a loop returns "undefined" (probably)
 
 
 3 - Use Cases:
 --------------
 
-###Class mecanism
+### Class mecanism
 ![class-mechanism-event-sheet](http://yanngranjon.com/static/c2-plugins/proto.png)  
 
 gives you this kind of console output:  
@@ -317,5 +317,5 @@ and now (v1.1) in the debugger:
 
 [prototype.capx](https://app.box.com/s/1whrtwl9m7oflr0goibe)  
 
-###Inspecting an unknown JSON
+### Inspecting an unknown JSON
 [inspection.capx](https://app.box.com/s/fzf0waxeplq8u5iy6l7h)
